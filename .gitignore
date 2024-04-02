@@ -3,3 +3,11 @@
 .RData
 .Ruserdata
 banffIT.Rproj
+docs/
+tests/
+docs
+inst/doc
+/doc/
+/Meta/
+README.Rmd
+NEWS.Rmd
