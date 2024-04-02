@@ -172,7 +172,7 @@ Each of the variable listed is mandatory.
 For further information please refer to documentation.")
 
     message("Export banff assessement Excel files in \n'",bold(banff_assessment_path),"'\n")
-    message("Export banff dictionary Excel files in \n'",bold(banff_assessment_path),"'\n")
+    message("Export banff dictionary Excel files in \n'",bold(banff_dictionary_path),"'\n")
 
     write_excel_allsheets(banff_assessment, banff_assessment_path)
     write_excel_allsheets(banff_dict, banff_dictionary_path)
@@ -233,21 +233,21 @@ For further information please refer to documentation.")
 
 The assessment and addition of diagnosis on your dataset is now finished.
 In the output folder, you will find an Excel file containing both labels and codes
-of your dataset and for each participant, additional columns corresponding to your
+of your dataset and for each participant, additional columns corresponding to the
 diagnosis.
 
 An assessment and summary report has been generated in your output folder to help you
-assessing and interpret your dataset. You can open it as an Excel file.
+assess and interpret your dataset. You can open it as an Excel file.
 
 For further information please refer to documentation.")
 
   message("Export banff diagnostics Excel files in \n'",bold(banff_diagnosis_path),"'\n")
-  message("Export banff assessement Excel files in \n'",bold(banff_report_path),"'\n")
-  message("Export banff dictionary Excel files in \n'",bold(banff_assessment_path),"'\n")
+  message("Export banff report Excel files in \n'",bold(banff_report_path),"'\n")
+  message("Export banff dictionary Excel files in \n'",bold(banff_dictionary_path),"'\n")
 
   write_excel_allsheets(banff_diagnosis , banff_diagnosis_path)
-  write_excel_allsheets(banff_dict, banff_dictionary_path)
   write_excel_allsheets(banff_report, banff_report_path)
+  write_excel_allsheets(banff_dict, banff_dictionary_path)
 
   return(invisible(NULL))
 }
