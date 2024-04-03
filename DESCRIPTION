@@ -1,9 +1,17 @@
 Package: banffIT
 Type: Package
 Title: What the Package Does (Title Case)
-Version: 0.1.0.1002
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Version: 0.1.0.1003
+Authors@R: 
+    c(person(given = "Guillaume",
+             family = "Fabre",
+             role = c("aut", "cre"),
+             email = "gfabre@maelstrom-research.org",
+             comment = c(ORCID = "0000-0002-0124-9970")),
+      person("group xxx xxx xxx",
+             role="cph",
+             email="xxx@xxx.org"))
+Maintainer: Guillaume Fabre <gfabre@maelstrom-research.org>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the description.
 License: GPL-3

@@ -2,7 +2,7 @@
 % Please edit documentation in R/02_algorithm.R
 \name{banff_dataset_evaluate}
 \alias{banff_dataset_evaluate}
-\title{Assesses the banff dataset}
+\title{Assess a banff dataset}
 \usage{
 banff_dataset_evaluate(banff_dataset)
 }
@@ -10,10 +10,11 @@ banff_dataset_evaluate(banff_dataset)
 \item{banff_dataset}{A tibble object.}
 }
 \value{
-xxx xxx
+A list of tibble objects giving information on the assessment of the dataset.
 }
 \description{
-This function takes in input a dataset to evaluate the quality of it.
+This function takes a dataset and evaluates its format and content based
+on the accepted format specified in the data dictionary.
 }
 \examples{
 {

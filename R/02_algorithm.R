@@ -2,16 +2,16 @@
 #' Add diagnosis to a banff dataset
 #'
 #' @description
-#' This function takes in input a dataset which is given for all the observation
-#' a diagnosis. To be able to perform, the dataset must not contain any errors
-#' that [banff_launcher()] would not have detected. Please prefer using
-#' [banff_launcher()] to effectuate additional tests.
+#' This function takes a dataset and returns a diagnosis for each
+#' observation. For the function to run, the dataset must not contain any errors
+#' that [banff_launcher()] would have detected. Please prefer using
+#' [banff_launcher()] to run additional tests.
 #'
 #' @param banff_dataset A tibble object.
-#' @param .test_TA Temoporary parameter to test with 'ta' variable.
+#' @param .test_TA Temporary parameter to test with 'ta' variable.
 #'
 #' @return
-#' A tibble object which contain additional columns refering to diagnosis.
+#' A tibble object that contains additional columns with the diagnosis results.
 #'
 #' @examples
 #' {
@@ -506,15 +506,16 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
 }
 
 #' @title
-#' Assesses the banff dataset
+#' Assess a banff dataset
 #'
 #' @description
-#' This function takes in input a dataset to evaluate the quality of it.
+#' This function takes a dataset and evaluates its format and content based 
+#' on the accepted format specified in the data dictionary.
 #'
 #' @param banff_dataset A tibble object.
 #'
 #' @return
-#' xxx xxx
+#' A list of tibble objects giving information on the assessment of the dataset.
 #'
 #' @examples
 #' {
@@ -965,15 +966,17 @@ Your dataset contains no error."
 }
 
 #' @title
-#' Calculate adequacy from glomeruli and arteries
+#' Calculate adequacy of each biopsy from glomeruli and arteries
 #'
 #' @description
-#' If glomeruli and arteries are provided, it calculates adequacy from them.
+#' This function calculates adequacy of each biopsy (i.e., each observation) based on glomeruli and 
+#' arteries variables (if provided).
 #'
 #' @param banff_dataset A tibble object.
 #'
 #' @return
-#' A tibble object which has two columns, adequacy_calculated and adequacy_input.
+#' A tibble object with two columns: the calculated adequacy (adequacy_calculated)
+#' and the adequacy specified in input (adequacy_input).
 #'
 #' @examples
 #' {
@@ -1019,3 +1022,10 @@ calculate_adequacy <- function(banff_dataset) {
 #' @keywords imported
 #' @export
 madshapR::dataset_cat_as_labels
+
+#' @importFrom madshapR dataset_summarize
+#' @name dataset_summarize
+#' @rdname dataset_summarize
+#' @keywords imported
+#' @export
+madshapR::dataset_summarize

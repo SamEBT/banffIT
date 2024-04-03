@@ -2,7 +2,7 @@
 % Please edit documentation in R/00_utils.R
 \name{banffIT_website}
 \alias{banffIT_website}
-\title{Call to online documentation}
+\title{Call the online documentation}
 \usage{
 banffIT_website()
 }
@@ -10,9 +10,9 @@ banffIT_website()
 Nothing to be returned. The function opens a web page.
 }
 \description{
-Direct call to the online documentation for the package, which includes a
-description of the latest version of the package, vignettes, user guides,
-and a reference list of functions and help pages.
+This function sends the user to the online documentation for the package,
+which includes a description of the latest version of the package, vignettes,
+user guides, and a reference list of functions and help pages.
 }
 \examples{
 {

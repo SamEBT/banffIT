@@ -2,7 +2,7 @@
 % Please edit documentation in R/02_algorithm.R
 \name{calculate_adequacy}
 \alias{calculate_adequacy}
-\title{Calculate adequacy from glomeruli and arteries}
+\title{Calculate adequacy of each biopsy from glomeruli and arteries}
 \usage{
 calculate_adequacy(banff_dataset)
 }
@@ -10,10 +10,12 @@ calculate_adequacy(banff_dataset)
 \item{banff_dataset}{A tibble object.}
 }
 \value{
-A tibble object which has two columns, adequacy_calculated and adequacy_input.
+A tibble object with two columns: the calculated adequacy (adequacy_calculated)
+and the adequacy specified in input (adequacy_input).
 }
 \description{
-If glomeruli and arteries are provided, it calculates adequacy from them.
+This function calculates adequacy of each biopsy (i.e., each observation) based on glomeruli and
+arteries variables (if provided).
 }
 \examples{
 {

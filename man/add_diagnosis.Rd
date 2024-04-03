@@ -9,16 +9,16 @@ add_diagnosis(banff_dataset, .test_TA = FALSE)
 \arguments{
 \item{banff_dataset}{A tibble object.}
 
-\item{.test_TA}{Temoporary parameter to test with 'ta' variable.}
+\item{.test_TA}{Temporary parameter to test with 'ta' variable.}
 }
 \value{
-A tibble object which contain additional columns refering to diagnosis.
+A tibble object that contains additional columns with the diagnosis results.
 }
 \description{
-This function takes in input a dataset which is given for all the observation
-a diagnosis. To be able to perform, the dataset must not contain any errors
-that \code{\link[=banff_launcher]{banff_launcher()}} would not have detected. Please prefer using
-\code{\link[=banff_launcher]{banff_launcher()}} to effectuate additional tests.
+This function takes a dataset and returns a diagnosis for each
+observation. For the function to run, the dataset must not contain any errors
+that \code{\link[=banff_launcher]{banff_launcher()}} would have detected. Please prefer using
+\code{\link[=banff_launcher]{banff_launcher()}} to run additional tests.
 }
 \examples{
 {

@@ -2,7 +2,7 @@
 % Please edit documentation in R/00_utils.R
 \name{get_banff_dictionary}
 \alias{get_banff_dictionary}
-\title{gets the banff dictionary which is used in the process}
+\title{Get the banff data dictionary}
 \usage{
 get_banff_dictionary(
   which = NULL,
@@ -13,24 +13,24 @@ get_banff_dictionary(
 }
 \arguments{
 \item{which}{Indicates which banff dictionary to get. Either "input" or
-"output". If NULL, the whole banff dictionary is provided.}
+"output". If NULL, both banff dictionary are provided.}
 
-\item{language}{optional input allowing user to get their diagnosis in a
+\item{language}{Optional input allowing the user to get the diagnosis in a
 specific language. Options are "label:en" (default), "label:fr", "label:de",
 "label:sp", "label:nl", "label:jp", "label:in".}
 
 \item{detail}{Whether the output should include temporary variables generated
 in the process or not. FALSE by default.}
 
-\item{.test_TA}{Temoporary parameter to test with 'ta' variable.}
+\item{.test_TA}{Temporary parameter to test with 'ta' variable.}
 }
 \value{
-A list of tibble representing meta data used in the process. The meta
-data is the list of variables used in the process, and their associated
-categories if any.
+A list of tibbles representing meta data used in the process. The metadata
+are the list of variables used, and their associated categories, if any.
 }
 \description{
-gets the banff dictionary which is used in the process
+This function gets the data dictionary used to control the consistancy of
+the banff dataset.
 }
 \examples{
 {

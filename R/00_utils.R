@@ -1,19 +1,22 @@
 #' @title
-#' gets the banff dictionary which is used in the process
+#' Get the banff data dictionary
+#'
+#' @description
+#' This function gets the data dictionary used to control the consistancy of
+#' the banff dataset.
 #'
 #' @param which Indicates which banff dictionary to get. Either "input" or
-#' "output". If NULL, the whole banff dictionary is provided.
-#' @param language optional input allowing user to get their diagnosis in a
+#' "output". If NULL, both banff dictionary are provided.
+#' @param language Optional input allowing the user to get the diagnosis in a
 #' specific language. Options are "label:en" (default), "label:fr", "label:de",
 #' "label:sp", "label:nl", "label:jp", "label:in".
 #' @param detail Whether the output should include temporary variables generated
 #' in the process or not. FALSE by default.
-#' @param .test_TA Temoporary parameter to test with 'ta' variable.
+#' @param .test_TA Temporary parameter to test with 'ta' variable.
 #'
 #' @return
-#' A list of tibble representing meta data used in the process. The meta
-#' data is the list of variables used in the process, and their associated
-#' categories if any.
+#' A list of tibbles representing meta data used in the process. The metadata
+#' are the list of variables used, and their associated categories, if any.
 #'
 #' @examples
 #' {
@@ -115,15 +118,13 @@ The possible `language` are : ",toString(labels))
 
 }
 
-
-
 #' @title
-#' Call to online documentation
+#' Call the online documentation
 #'
 #' @description
-#' Direct call to the online documentation for the package, which includes a
-#' description of the latest version of the package, vignettes, user guides,
-#' and a reference list of functions and help pages.
+#' This function sends the user to the online documentation for the package,
+#' which includes a description of the latest version of the package, vignettes,
+#' user guides, and a reference list of functions and help pages.
 #'
 #' @returns
 #' Nothing to be returned. The function opens a web page.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/01_banff_launcher.R
 \name{banff_launcher}
 \alias{banff_launcher}
-\title{Main function to start the program}
+\title{Launch the program}
 \usage{
 banff_launcher(
   banff_file,
@@ -14,39 +14,39 @@ banff_launcher(
 )
 }
 \arguments{
-\item{banff_file}{A character string identifying the name of the file to be
+\item{banff_file}{A character string identifying the path of the file to be
 processed.}
 
 \item{output_folder}{A character string identifying the folder path where
 the bookdown report files will be saved.}
 
-\item{language}{optional input allowing user to get their diagnosis in a
+\item{language}{Optional argument allowing the user to get the diagnosis in a
 specific language. Options are "label:en" (default), "label:fr", "label:de",
 "label:sp", "label:nl", "label:jp", "label:in".}
 
-\item{option_filter}{Optional argument allowing the user to filter its
-dataset using \code{\link[dplyr:filter]{dplyr::filter()}} synthax. The column used to filter must exist.}
+\item{option_filter}{Optional argument allowing the user to filter the
+dataset using \code{\link[dplyr:filter]{dplyr::filter()}} syntax. The column used to filter must exist.}
 
-\item{detail}{Whether the output should include temporary variables generated
-in the process or not. FALSE by default.}
+\item{detail}{Optional argument indicating whether the output should include
+temporary variables generated in the process or not. FALSE by default.}
 
 \item{.test_TA}{Temporary parameter to test with 'ta' variable.}
 }
 \value{
 Nothing to be returned. The function generates a folder (if not already
-exists) where Excel files are stored.
+existing) where Excel files are stored.
 }
 \description{
-This function takes in input a path string of an input file. The function
-internally adresses series of tests that assess the input dataset. If any of
-these tests fails, the user gets information allowing them to correct the
-file and reprocess. Once the tests do not fail, the dataset is given for all
-the observation a diagnosis (using internally the
-function \code{\link[=add_diagnosis]{add_diagnosis()}}). The output dataset, along with its associated
-labels (\code{label:en} by defaut) are provided to the user in an Excel format
-file accessibee in the output_folder they provided (working direct as a
-default.) The dataset comes with a report that summarize information about
-variable distributions and descriptive statistics.
+This function takes a path string identifying the input file path. The function
+internally runs a series of tests that assess the input dataset. If any
+of these tests fails, the user gets information allowing them to correct the
+input dataset and rerun the process. Once all tests pass, the dataset
+is given as an output with a diagnosis for each observation (using the
+function \code{\link[=add_diagnosis]{add_diagnosis()}} internally). The output dataset, along with its
+associated labels (\code{label:en} by default) are provided to the user in an Excel
+format file accessible in the output_folder specified (the working directory by
+default). The output dataset comes with a report that summarizes information
+about variable distributions and descriptive statistics.
 }
 \examples{
 {
