@@ -6,7 +6,7 @@
 #' internally runs a series of tests that assess the input dataset. If any
 #' of these tests fails, the user gets information allowing them to correct the
 #' input dataset and rerun the process. Once all tests pass, the dataset
-#' is given as an output with a diagnosis for each observation (using the 
+#' is given as an output with a diagnosis for each observation (using the
 #' function [add_diagnosis()] internally). The output dataset, along with its
 #' associated labels (`label:en` by default) are provided to the user in an Excel
 #' format file accessible in the output_folder specified (the working directory by
@@ -33,7 +33,7 @@
 #' @examples
 #' {
 #'
-#' banff_file <- system.file("extdata", "example.xlsx", package = "banffIT")
+#' banff_file <- system.file("extdata", "example - empty.xlsx", package = "banffIT")
 #' banff_launcher(banff_file, output_folder = tempdir())
 #'
 #' }
@@ -135,8 +135,6 @@ Diagnosis for this file already exists in '",basename(output_folder),"'")
   if(!is.null(fargs$`option_filter`)){
 
     query_expr <- substitute(option_filter)
-
-    message("\n")
     banff_dataset <-
       banff_dataset %>%
       dplyr::filter(!! query_expr)
