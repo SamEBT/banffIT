@@ -29,7 +29,7 @@ report.
 ## Install the package and use the example file
 
 ```{r, eval=FALSE}
-# To install madshapR:
+# To install banffIT:
 install.packages('banffIT')
 
 library(banffIT)

@@ -2,7 +2,7 @@
 #' Get the banff data dictionary
 #'
 #' @description
-#' This function gets the data dictionary used to control the consistancy of
+#' This function gets the data dictionary used to control the consistency of
 #' the banff dataset.
 #'
 #' @param which Indicates which banff dictionary to get. Either "input" or
@@ -136,7 +136,7 @@ The possible `language` are : ",toString(labels))
 #' @export
 banffIT_website <- function(){
 
-  browseURL("https://maelstrom-research.github.io/banffIT-documentation/")
+  browseURL("https://PersonalizedTransplantCare.github.io/banffIT-documentation/")
 
 }
 

@@ -22,7 +22,7 @@ A list of tibbles representing meta data used in the process. The metadata
 are the list of variables used, and their associated categories, if any.
 }
 \description{
-This function gets the data dictionary used to control the consistancy of
+This function gets the data dictionary used to control the consistency of
 the banff dataset.
 }
 \examples{

@@ -12,14 +12,16 @@ The banffIT package provides provides functions to assign standardized
 diagnosis using the Banff Classification (Category 1 to 6 diagnoses,
 including Acute and Chronic active T-cell mediated rejection as well as
 Active, Chronic active, and Chronic antibody mediated rejection). The
-main function [banff_launcher()](banff_launcher()) considers a minimal
-dataset containing biopsies information in a specific format (described
-by a data dictionary), verifies its content and format (based on the
-data dictionary), assign diagnoses, and create a summary report.
+main function
+[banff_launcher()](https://PersonalizedTransplantCare.github.io/banffIT-documentation/reference/banff_launcher.html)
+considers a minimal dataset containing biopsies information in a
+specific format (described by a data dictionary), verifies its content
+and format (based on the data dictionary), assign diagnoses, and create
+a summary report.
 
 # Get started
 
-## Install the package
+## Install the package and use the example file
 
 ``` r
 # To install madshapR:
@@ -28,4 +30,8 @@ install.packages('banffIT')
 library(banffIT)
 # If you need help with the package, please use:
 banffIT_website()
+
+# use the example file provided. remplace tempdir by a directory name.
+banff_file <- system.file("extdata", "example.xlsx", package = "banffIT")
+banff_launcher(banff_file, output_folder = tempdir())
 ```

@@ -984,3 +984,72 @@ madshapR::dataset_cat_as_labels
 #' @keywords imported
 #' @export
 madshapR::dataset_summarize
+
+
+
+#  @title
+#  summarise a banff dataset with its diagnosis
+#
+#  @description
+#  Assesses and summarizes the content and structure of a banff dataset (with
+#  diagnosis) and generates reports of the results. This function can be used
+#  to evaluate data structure, and to summarize additional information about
+#  variable distributions and descriptive statistics.
+#
+#  @param banff_diagnosis A banff dataset object with diagnosis.
+#  @param banff_assessment A tibble object.
+#  @param banff_dict A list of tibble objects giving information on the
+#  assessment of the banff dataset.
+#  @param banff_file_name A character string specifying the name of the dataset.
+#
+#  @return
+#  A list of tibble objects giving information on the summary of the banff
+#  dataset.
+#
+#  @examples
+#  {
+#
+#  library(fabR)
+#  banff_file <- system.file("extdata", "example.xlsx", package = "banffIT")
+#  banff_dataset <- read_excel_allsheets(banff_file)[1,]
+#  banff_dataset_evaluate(banff_dataset)
+#
+#  }
+#
+#  @import dplyr tidyr madshapR
+#  @importFrom rlang .data
+#  @export
+# banff_dataset_summarize <- function(
+#     banff_diagnosis,
+#     banff_assessment = NULL,
+#     banff_dict,
+#     banff_file_name) {
+#
+#   if(is.null(banff_assessment))
+#     banff_assessment <- banff_dataset_evaluate(banff_diagnosis$codeset)
+#
+#   banff_report <-
+#     banff_dataset_summarize(
+#       dataset = banff_diagnosis$codeset,
+#       data_dict = banff_dict,
+#       dataset_name = banff_file_name)
+#
+#   banff_report$`Dataset assessment - input`     <- banff_assessment$`Dataset assessment`
+#   banff_report$`Dataset assessment - diagnosis` <- banff_report$`Dataset assessment`
+#   banff_report$`Dataset assessment`             <- NULL
+#   banff_report$`Variables summary (all)`        <- banff_assessment$`Data dictionary summary`
+#
+#   banff_report$`Dataset assessment - diagnosis` <-
+#     banff_report$`Dataset assessment - diagnosis` %>%
+#     select("column" = "name","condition" = "Quality assessment comment", "value") %>%
+#     dplyr::filter(!.data$`column` %in% banff_report$`Dataset assessment - input`$column)
+#
+#   banff_report <- banff_report[unique(c(
+#     "Overview","Dataset assessment - input",
+#     "Dataset assessment - diagnosis", names(banff_report)))]
+#
+#   return(banff_report)
+#
+# }
+
+
