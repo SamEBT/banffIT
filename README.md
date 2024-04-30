@@ -8,7 +8,14 @@
 [![R-CMD-check](https://github.com/maelstrom-research/banffIT/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/maelstrom-research/banffIT/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The banffIT package provides functions for xxx.
+The banffIT package provides provides functions to assign standardized
+diagnosis using the Banff Classification (Category 1 to 6 diagnoses,
+including Acute and Chronic active T-cell mediated rejection as well as
+Active, Chronic active, and Chronic antibody mediated rejection). The
+main function [banff_launcher()](banff_launcher()) considers a minimal
+dataset containing biopsies information in a specific format (described
+by a data dictionary), verifies its content and format (based on the
+data dictionary), assign diagnoses, and create a summary report.
 
 # Get started
 
