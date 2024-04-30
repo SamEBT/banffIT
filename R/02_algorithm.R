@@ -18,7 +18,7 @@
 #'
 #' library(fabR)
 #' banff_file <- system.file("extdata", "example.xlsx", package = "banffIT")
-#' banff_dataset <- read_excel_allsheets(banff_file)
+#' banff_dataset <- read_excel_allsheets(banff_file)[1,]
 #' add_diagnosis(banff_dataset)
 #'
 #' }
@@ -509,7 +509,7 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
 #' Assess a banff dataset
 #'
 #' @description
-#' This function takes a dataset and evaluates its format and content based 
+#' This function takes a dataset and evaluates its format and content based
 #' on the accepted format specified in the data dictionary.
 #'
 #' @param banff_dataset A tibble object.
@@ -522,7 +522,7 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
 #'
 #' library(fabR)
 #' banff_file <- system.file("extdata", "example.xlsx", package = "banffIT")
-#' banff_dataset <- read_excel_allsheets(banff_file)
+#' banff_dataset <- read_excel_allsheets(banff_file)[1,]
 #' banff_dataset_evaluate(banff_dataset)
 #'
 #' }
@@ -691,8 +691,13 @@ toString(contains_na) %>% str_replace_all(", ","\n"))
 
   test_valueType <-
     check_dataset_valueType(
-      test_dataset,
-      banff_dict_input) %>%
+      test_dataset %>%
+
+        ## patch, fix error later
+        add_row(test_dataset[1,] %>%
+                mutate(across(c("sc_date_bx","date_tx"), ~ as_any_date("1983-07-19")))),
+
+      banff_dict_input,valueType_guess = TRUE) %>%
     dplyr::filter(!str_detect(.data$`condition`,'\\[INFO\\]')) %>%
     mutate(
       column = .data$`name_var`,
@@ -720,14 +725,14 @@ toString(contains_na) %>% str_replace_all(", ","\n"))
   #### * test_unique_value ####
   # column with unique value          WARNING
 
-    if(nrow(test_dataset) > 1){
-      test_unique_value <-
-        get_unique_value_cols(test_dataset) %>%
-        ungroup() %>%
-        mutate(
-          column = .data$`col_name`,
-          `Assessment comment` = "[INFO] - All the values are identical") %>%
-        select("column","Assessment comment")}
+  if(nrow(test_dataset) > 1){
+    test_unique_value <-
+      get_unique_value_cols(test_dataset) %>%
+      ungroup() %>%
+      mutate(
+        column = .data$`col_name`,
+        `Assessment comment` = "[INFO] - All the values are identical") %>%
+      select("column","Assessment comment")}
 
 
   #### * test_duplicate_col ####
@@ -883,9 +888,9 @@ toString(contains_na) %>% str_replace_all(", ","\n"))
   test_categories <-
     test_categories %>%
     mutate(`Assessment comment` =
-      ifelse(
+      if_else(
         (.data$`column` %in% test_unique_value$`column` &
-        str_detect(.data$`Assessment comment`,"\\[INFO\\]")),NA,.data$`Assessment comment`)) %>%
+        str_detect(.data$`Assessment comment`,"\\[INFO\\]")),NA_character_,.data$`Assessment comment`)) %>%
     dplyr::filter(!is.na(.data$`Assessment comment`))
 
   ##### gater all information #####
@@ -969,7 +974,7 @@ Your dataset contains no error."
 #' Calculate adequacy of each biopsy from glomeruli and arteries
 #'
 #' @description
-#' This function calculates adequacy of each biopsy (i.e., each observation) based on glomeruli and 
+#' This function calculates adequacy of each biopsy (i.e., each observation) based on glomeruli and
 #' arteries variables (if provided).
 #'
 #' @param banff_dataset A tibble object.
