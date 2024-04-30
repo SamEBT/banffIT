@@ -5,12 +5,10 @@ The banffIT package provides provides functions to assign standardized
 diagnosis using the Banff Classification (Category 1 to 6 diagnoses,
 including Acute and Chronic active T-cell mediated rejection as well as
 Active, Chronic active, and Chronic antibody mediated rejection). The
-main function
-[banff_launcher()](https://PersonalizedTransplantCare.github.io/banffIT-documentation/reference/banff_launcher.html)
-considers a minimal dataset containing biopsies information in a
-specific format (described by a data dictionary), verifies its content
-and format (based on the data dictionary), assign diagnoses, and create
-a summary report.
+main function `banff_launcher()`considers a minimal dataset containing
+biopsies information in a specific format (described by a data
+dictionary), verifies its content and format (based on the data
+dictionary), assign diagnoses, and create a summary report.
 
 ## Main functionality
 
@@ -20,12 +18,12 @@ a summary report.
   the user gets information allowing them to correct the input dataset
   and rerun the process. Once all tests pass, the dataset is given as an
   output with a diagnosis for each observation (using the function
-  [add_diagnosis()](https://PersonalizedTransplantCare.github.io/banffIT-documentation/reference/add_diagnosis.html)
-  internally). The output dataset, along with its associated labels
-  (“label:en” by default) are provided to the user in an Excel format
-  file accessible in the output_folder specified (the working directory
-  by default). The output dataset comes with a report that summarizes
-  information about variable distributions and descriptive statistics.
+  `add_diagnosis()` internally). The output dataset, along with its
+  associated labels (“label:en” by default) are provided to the user in
+  an Excel format file accessible in the output_folder specified (the
+  working directory by default). The output dataset comes with a report
+  that summarizes information about variable distributions and
+  descriptive statistics.
 
 ## additional functions (used in the main function, but can be used separately)
 
@@ -43,10 +41,9 @@ a summary report.
 
 - function `add_diagnosis()` This function takes a dataset and returns a
   diagnosis for each observation. For the function to run, the dataset
-  must not contain any errors that
-  [banff_launcher()](https://PersonalizedTransplantCare.github.io/banffIT-documentation/reference/banff_launcher.html)
-  would have detected. Please prefer using `banff_launcher()` to run
-  additional tests.
+  must not contain any errors that `banff_launcher()`would have
+  detected. Please prefer using `banff_launcher()` to run additional
+  tests.
 
 - function `dataset_summarize()`
   [Function](https://maelstrom-research.github.io/madshapR-documentation/reference/summarize.html)
