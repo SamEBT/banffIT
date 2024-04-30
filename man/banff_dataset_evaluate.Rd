@@ -21,7 +21,7 @@ on the accepted format specified in the data dictionary.
 
 library(fabR)
 banff_file <- system.file("extdata", "example.xlsx", package = "banffIT")
-banff_dataset <- read_excel_allsheets(banff_file)
+banff_dataset <- read_excel_allsheets(banff_file)[1,]
 banff_dataset_evaluate(banff_dataset)
 
 }

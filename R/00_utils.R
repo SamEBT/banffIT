@@ -12,7 +12,6 @@
 #' "label:sp", "label:nl", "label:jp", "label:in".
 #' @param detail Whether the output should include temporary variables generated
 #' in the process or not. FALSE by default.
-#' @param .test_TA Temporary parameter to test with 'ta' variable.
 #'
 #' @return
 #' A list of tibbles representing meta data used in the process. The metadata
@@ -28,14 +27,10 @@
 #' @import dplyr
 #' @importFrom rlang .data
 #' @export
-get_banff_dictionary <- function(which = NULL, language = "label:en",detail = FALSE, .test_TA = FALSE){
+get_banff_dictionary <- function(which = NULL, language = "label:en",detail = FALSE){
 
   # creation of the data dictionary
-  if(.test_TA == TRUE){
-    banff_dict <- get("banff_dict_TA_test", envir = asNamespace("banffIT"))    
-  }else{
-    banff_dict <- get("banff_dict", envir = asNamespace("banffIT"))    
-  }
+  banff_dict <- get("banff_dict", envir = asNamespace("banffIT"))
 
   # check if the label provided by user is among the provided labels.
   labels <- str_subset(names(banff_dict$`Categories`),'^label')

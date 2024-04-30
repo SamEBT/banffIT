@@ -37,7 +37,7 @@ library(banffIT)
 banffIT_website()
 
 # use the example file provided. remplace tempdir by a directory name.
-banff_file <- system.file("extdata", "example - empty.xlsx", package = "banffIT")
+banff_file <- system.file("extdata", "example.xlsx", package = "banffIT")
 banff_launcher(banff_file, output_folder = tempdir())
 
 ```

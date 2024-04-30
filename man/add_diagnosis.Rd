@@ -4,12 +4,10 @@
 \alias{add_diagnosis}
 \title{Add diagnosis to a banff dataset}
 \usage{
-add_diagnosis(banff_dataset, .test_TA = FALSE)
+add_diagnosis(banff_dataset)
 }
 \arguments{
 \item{banff_dataset}{A tibble object.}
-
-\item{.test_TA}{Temporary parameter to test with 'ta' variable.}
 }
 \value{
 A tibble object that contains additional columns with the diagnosis results.
@@ -25,7 +23,7 @@ that \code{\link[=banff_launcher]{banff_launcher()}} would have detected. Please
 
 library(fabR)
 banff_file <- system.file("extdata", "example.xlsx", package = "banffIT")
-banff_dataset <- read_excel_allsheets(banff_file)
+banff_dataset <- read_excel_allsheets(banff_file)[1,]
 add_diagnosis(banff_dataset)
 
 }

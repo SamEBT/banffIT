@@ -4,12 +4,7 @@
 \alias{get_banff_dictionary}
 \title{Get the banff data dictionary}
 \usage{
-get_banff_dictionary(
-  which = NULL,
-  language = "label:en",
-  detail = FALSE,
-  .test_TA = FALSE
-)
+get_banff_dictionary(which = NULL, language = "label:en", detail = FALSE)
 }
 \arguments{
 \item{which}{Indicates which banff dictionary to get. Either "input" or
@@ -21,8 +16,6 @@ specific language. Options are "label:en" (default), "label:fr", "label:de",
 
 \item{detail}{Whether the output should include temporary variables generated
 in the process or not. FALSE by default.}
-
-\item{.test_TA}{Temporary parameter to test with 'ta' variable.}
 }
 \value{
 A list of tibbles representing meta data used in the process. The metadata

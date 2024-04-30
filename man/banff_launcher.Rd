@@ -9,8 +9,7 @@ banff_launcher(
   output_folder = getwd(),
   language = "label:en",
   option_filter,
-  detail = FALSE,
-  .test_TA = FALSE
+  detail = FALSE
 )
 }
 \arguments{
@@ -29,8 +28,6 @@ dataset using \code{\link[dplyr:filter]{dplyr::filter()}} syntax. The column use
 
 \item{detail}{Optional argument indicating whether the output should include
 temporary variables generated in the process or not. FALSE by default.}
-
-\item{.test_TA}{Temporary parameter to test with 'ta' variable.}
 }
 \value{
 Nothing to be returned. The function generates a folder (if not already
@@ -51,7 +48,7 @@ about variable distributions and descriptive statistics.
 \examples{
 {
 
-banff_file <- system.file("extdata", "example.xlsx", package = "banffIT")
+banff_file <- system.file("extdata", "example-empty.xlsx", package = "banffIT")
 banff_launcher(banff_file, output_folder = tempdir())
 
 }

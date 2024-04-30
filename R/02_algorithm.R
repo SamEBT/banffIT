@@ -8,7 +8,6 @@
 #' [banff_launcher()] to run additional tests.
 #'
 #' @param banff_dataset A tibble object.
-#' @param .test_TA Temporary parameter to test with 'ta' variable.
 #'
 #' @return
 #' A tibble object that contains additional columns with the diagnosis results.
@@ -26,12 +25,10 @@
 #' @import dplyr
 #' @importFrom rlang .data
 #' @export
-add_diagnosis <- function(banff_dataset, .test_TA = FALSE) {
+add_diagnosis <- function(banff_dataset) {
 
   # check input
   banff_assessment <- suppressMessages(banff_dataset_evaluate(banff_dataset))
-
-  if(.test_TA == TRUE) warning("TA used in the algorithm.")
 
   if(!is.null(attributes(banff_assessment)$error)){
     message(attributes(banff_assessment)$error)
@@ -100,49 +97,25 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
           TRUE                                                        ~ 0L
         ))
 
-  if(.test_TA == TRUE){
 
-    banff_diagnosis <-
-      banff_diagnosis %>%
-      mutate(
-        chronic_atcmr_code_4.TEMP =
-          case_when(
-
-            .data$`TA` == 1 | .data$`monofibneoint` == 1              ~ 8L  ,   # "II_c",   # TA ADDED
-            (.data$`bk`            == 0        &
-               .data$`infec`         == 0        &
-               .data$`i_ifta_score`  %in% c(2,3) &
-               .data$`ti_score`      %in% c(2,3) &
-               .data$`t_score`       == 3)                             ~ 7L  ,   # "IB_c",
-            (.data$`bk`            == 0        &
-               .data$`infec`         == 0        &
-               .data$`i_ifta_score`  %in% c(2,3) &
-               .data$`ti_score`      %in% c(2,3) &
-               .data$`t_score`       == 2)                             ~ 6L  ,   # "IA_c",
-            TRUE                                                     ~ 0L)
-      )
-
-  }else{
-
-    banff_diagnosis <-
-      banff_diagnosis %>%
-      mutate(
-        chronic_atcmr_code_4.TEMP =
-          case_when(
-            .data$`monofibneoint` == 1                              ~ 8L  ,   # "II_c",
-            (.data$`bk`            == 0        &
-               .data$`infec`         == 0        &
-               .data$`i_ifta_score`  %in% c(2,3) &
-               .data$`ti_score`      %in% c(2,3) &
-               .data$`t_score`       == 3)                             ~ 7L  ,   # "IB_c",
-            (.data$`bk`            == 0        &
-               .data$`infec`         == 0        &
-               .data$`i_ifta_score`  %in% c(2,3) &
-               .data$`ti_score`      %in% c(2,3) &
-               .data$`t_score`       == 2)                             ~ 6L  ,   # "IA_c",
-            TRUE                                                     ~ 0L)
-      )
-  }
+  banff_diagnosis <-
+    banff_diagnosis %>%
+    mutate(
+      chronic_atcmr_code_4.TEMP =
+        case_when(
+          .data$`monofibneoint` == 1                              ~ 8L  ,   # "II_c",
+          (.data$`bk`            == 0        &
+             .data$`infec`         == 0        &
+             .data$`i_ifta_score`  %in% c(2,3) &
+             .data$`ti_score`      %in% c(2,3) &
+             .data$`t_score`       == 3)                             ~ 7L  ,   # "IB_c",
+          (.data$`bk`            == 0        &
+             .data$`infec`         == 0        &
+             .data$`i_ifta_score`  %in% c(2,3) &
+             .data$`ti_score`      %in% c(2,3) &
+             .data$`t_score`       == 2)                             ~ 6L  ,   # "IA_c",
+          TRUE                                                     ~ 0L)
+    )
 
   # aamr1
   banff_diagnosis <-
@@ -265,46 +238,23 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
                          .data$`hist_tcmr3` >= 1L        , 1L, 0L))
 
   # Check with Jan chronic vs chronic active (camr11 + camr12 vs camr1 = camr11 + camr12 + camr13)
-  if(.test_TA == TRUE){
 
-    banff_diagnosis <-
-      banff_diagnosis %>%
-      mutate(
+  banff_diagnosis <-
+    banff_diagnosis %>%
+    mutate(
 
-        camr11 = ifelse(.data$`cg_score`    != "0" &
-                          .data$`ctma`        ==  0  &
-                          .data$`cgn`         ==  0  &
-                          .data$`agn`         ==  0  ,    1L, 0L),
+      camr11 = ifelse(.data$`cg_score`    != "0" &
+                        .data$`ctma`        ==  0  &
+                        .data$`cgn`         ==  0  &
+                        .data$`agn`         ==  0  ,    1L, 0L),
 
-        camr12 = ifelse(.data$`sptcbmml`    == 1L,      1L, 0L),
+      camr12 = ifelse(.data$`sptcbmml`    == 1L,      1L, 0L),
 
-        camr13 = case_when(
-          .data$`TA`       == 1  & .data$`hist_tcmr_calculated` == 0L  ~ 1L,              # TA ADDED
-          .data$`leuscint` == 1 & .data$`hist_tcmr_calculated` == 0L   ~ 1L,
-          .data$`newaif`   == 1                                        ~ 1L,
-          TRUE                                                         ~ 0L)
-      )
-
-  }else{
-
-    banff_diagnosis <-
-      banff_diagnosis %>%
-      mutate(
-
-        camr11 = ifelse(.data$`cg_score`    != "0" &
-                          .data$`ctma`        ==  0  &
-                          .data$`cgn`         ==  0  &
-                          .data$`agn`         ==  0  ,    1L, 0L),
-
-        camr12 = ifelse(.data$`sptcbmml`    == 1L,      1L, 0L),
-
-        camr13 = case_when(
-          .data$`leuscint` == 1 & .data$`hist_tcmr_calculated` == 0L  ~ 1L,
-          .data$`newaif`   == 1                                       ~ 1L,
-          TRUE                                                        ~ 0L)
-      )
-
-  }
+      camr13 = case_when(
+        .data$`leuscint` == 1 & .data$`hist_tcmr_calculated` == 0L  ~ 1L,
+        .data$`newaif`   == 1                                       ~ 1L,
+        TRUE                                                        ~ 0L)
+    )
 
   banff_diagnosis <-
     banff_diagnosis %>%

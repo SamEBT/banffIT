@@ -24,7 +24,6 @@
 #' dataset using [dplyr::filter()] syntax. The column used to filter must exist.
 #' @param detail Optional argument indicating whether the output should include
 #' temporary variables generated in the process or not. FALSE by default.
-#' @param .test_TA Temporary parameter to test with 'ta' variable.
 #'
 #' @return
 #' Nothing to be returned. The function generates a folder (if not already
@@ -33,7 +32,7 @@
 #' @examples
 #' {
 #'
-#' banff_file <- system.file("extdata", "example - empty.xlsx", package = "banffIT")
+#' banff_file <- system.file("extdata", "example-empty.xlsx", package = "banffIT")
 #' banff_launcher(banff_file, output_folder = tempdir())
 #'
 #' }
@@ -50,8 +49,7 @@ banff_launcher <- function(
     output_folder = getwd(),
     language = "label:en",
     option_filter,
-    detail = FALSE,
-    .test_TA = FALSE){
+    detail = FALSE){
 
   # Function to read csv or xlsx file
   read_file <- function(file_path = banff_file) {
@@ -120,9 +118,9 @@ Diagnosis for this file already exists in '",basename(output_folder),"'")
   banff_dataset <- read_file(banff_file)
 
   # creation of the banff dictionary
-  banff_dict        <- get_banff_dictionary(which = NULL, language = language, detail = detail, .test_TA = .test_TA)
-  banff_dict_input  <- get_banff_dictionary(which = "input", language = language, detail = detail, .test_TA = .test_TA)
-  banff_dict_output <- get_banff_dictionary(which = "output", language = language, detail = detail, .test_TA = .test_TA)
+  banff_dict        <- get_banff_dictionary(which = NULL, language = language, detail = detail)
+  banff_dict_input  <- get_banff_dictionary(which = "input", language = language, detail = detail)
+  banff_dict_output <- get_banff_dictionary(which = "output", language = language, detail = detail)
 
   ## creation of adequacy calculated
   adequacy_input_copy <- calculate_adequacy(banff_dataset)
@@ -181,7 +179,7 @@ For further information please refer to documentation.")
 
   message("\n[3/6] - Add diagnosis to each observation of'",bold(banff_file_name),"'")
 
-  banff_diagnosis <- add_diagnosis(banff_dataset,.test_TA)
+  banff_diagnosis <- add_diagnosis(banff_dataset)
 
   message("\n[4/6] - Generate labels for each variable of '",bold(banff_file_name),"'")
 
