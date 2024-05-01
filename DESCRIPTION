@@ -5,13 +5,22 @@ Version: 0.1.0.1004
 Authors@R: 
     c(person(given = "Guillaume",
              family = "Fabre",
-             role = c("aut", "cre"),
-             email = "gfabre@maelstrom-research.org",
+             role = c("aut","cre"),
+             email = "guijoseph.fabre@gmail.com",
              comment = c(ORCID = "0000-0002-0124-9970")),
-      person("group xxx xxx xxx",
-             role="cph",
-             email="xxx@xxx.org"))
-Maintainer: Guillaume Fabre <gfabre@maelstrom-research.org>
+      person(given = "Ruth",
+             family = "Sapir-Pichhadze",
+             role=c("fnd","cph","ctb"),
+             email="ruth.sapir-pichhadze@mcgill.ca"),
+      person(given = "Samuel",
+             family = "El Bouzaïdi Tiali",
+             role=c("ctb"),
+             email="sbtiali@maelstrom-research.org"),
+      person(given = "Jérôme",
+             family = "Laforme",
+             role=c("ctb"),
+             email="jlaforme@maelstrom-research.org"))
+Maintainer: Guillaume Fabre <guijoseph.fabre@gmail.com>
 Description: The goal of this package is to provide functions to assign 
     standardized diagnosis using the Banff Classification (Category 1 to 6 
     diagnoses, including Acute and Chronic active T-cell mediated rejection as 

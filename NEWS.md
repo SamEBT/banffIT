@@ -2,7 +2,7 @@
 # banffIT 0.1.0
 
 The banffIT package provides provides functions to assign standardized
-diagnosis using the Banff Classification (Category 1 to 6 diagnoses,
+diagnoses using the Banff Classification (Category 1 to 6 diagnosis,
 including Acute and Chronic active T-cell mediated rejection as well as
 Active, Chronic active, and Chronic antibody mediated rejection). The
 main function `banff_launcher()`considers a minimal dataset containing
@@ -18,7 +18,7 @@ dictionary), assign diagnoses, and create a summary report.
   the user gets information allowing them to correct the input dataset
   and rerun the process. Once all tests pass, the dataset is given as an
   output with a diagnosis for each observation (using the function
-  `add_diagnosis()` internally). The output dataset, along with its
+  `add_diagnoses()` internally). The output dataset, along with its
   associated labels (“label:en” by default) are provided to the user in
   an Excel format file accessible in the output_folder specified (the
   working directory by default). The output dataset comes with a report
@@ -39,7 +39,7 @@ dictionary), assign diagnoses, and create a summary report.
   [Function](https://maelstrom-research.github.io/madshapR-documentation/reference/dataset_cat_as_labels.html)
   exported from the madshapR package.
 
-- function `add_diagnosis()` This function takes a dataset and returns a
+- function `add_diagnoses()` This function takes a dataset and returns a
   diagnosis for each observation. For the function to run, the dataset
   must not contain any errors that `banff_launcher()`would have
   detected. Please prefer using `banff_launcher()` to run additional
@@ -52,7 +52,7 @@ dictionary), assign diagnoses, and create a summary report.
 ## Helper functions
 
 - function `get_banff_dictionary()` This function gets the data
-  dictionary used to control the consistency of the banff dataset.
+  dictionary used to control the consistency of the Banff dataset.
 
 - function `banffIT_website()` This function sends the user to the
   online documentation for the package, which includes a description of

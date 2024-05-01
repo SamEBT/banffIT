@@ -7,17 +7,17 @@
 #' of these tests fails, the user gets information allowing them to correct the
 #' input dataset and rerun the process. Once all tests pass, the dataset
 #' is given as an output with a diagnosis for each observation (using the
-#' function [add_diagnosis()] internally). The output dataset, along with its
+#' function [add_diagnoses()] internally). The output dataset, along with its
 #' associated labels (`label:en` by default) are provided to the user in an Excel
 #' format file accessible in the output_folder specified (the working directory by
 #' default). The output dataset comes with a report that summarizes information
 #' about variable distributions and descriptive statistics.
 #'
-#' @param banff_file A character string identifying the path of the file to be
-#' processed.
+#' @param input_dataset A character string identifying the path of the dataset
+#' to be processed.
 #' @param output_folder A character string identifying the folder path where
 #' the bookdown report files will be saved.
-#' @param language Optional argument allowing the user to get the diagnosis in a
+#' @param language Optional argument allowing the user to get the diagnoses in a
 #' specific language. Options are "label:en" (default), "label:fr", "label:de",
 #' "label:sp", "label:nl", "label:jp", "label:in".
 #' @param option_filter Optional argument allowing the user to filter the
@@ -32,8 +32,8 @@
 #' @examples
 #' {
 #'
-#' banff_file <- system.file("extdata", "example-empty.xlsx", package = "banffIT")
-#' banff_launcher(banff_file, output_folder = tempdir())
+#' input_dataset <- system.file("extdata", "template.xlsx", package = "banffIT")
+#' banff_launcher(input_dataset, output_folder = tempdir())
 #'
 #' }
 #'
@@ -45,14 +45,14 @@
 #' @importFrom crayon bold
 #' @export
 banff_launcher <- function(
-    banff_file,
+    input_dataset,
     output_folder = getwd(),
     language = "label:en",
     option_filter,
     detail = FALSE){
 
   # Function to read csv or xlsx file
-  read_file <- function(file_path = banff_file) {
+  read_file <- function(file_path = input_dataset) {
     # Check the file extension
     file_extension <- file_ext(file_path)
 
@@ -80,7 +80,7 @@ banff_launcher <- function(
 
   # message to user to begin with the process.
   message_on_prompt(paste0(
-"Welcome to the banff diagnosis helper.
+"Welcome to the Banff diagnosis helper.
 
 Press [enter] to continue or [esc] to quit.
 
@@ -94,30 +94,30 @@ Press [enter] to continue or [esc] to quit.
   if(!dir.exists(output_folder)) dir_create(output_folder)
 
   # names of objects to be generated in the folder. construct name and check previous existence.
-  banff_file_name  <- make.names(path_ext_remove(basename(banff_file)))
+  input_dataset_name  <- make.names(path_ext_remove(basename(input_dataset)))
 
   timestamp <-
     str_replace_all(str_replace_all(
       toString(trunc(Sys.time(), units = "secs")),":","")," ","-")
 
-  banff_diagnosis_path  <- paste0(output_folder,'/',banff_file_name,'-', timestamp,'-diagnosis.xlsx')
-  banff_assessment_path <- paste0(output_folder,'/',banff_file_name,'-', timestamp,'-assessment.xlsx')
-  banff_report_path     <- paste0(output_folder,'/',banff_file_name,'-', timestamp,'-report.xlsx')
+  banff_diagnoses_path  <- paste0(output_folder,'/',input_dataset_name,'-', timestamp,'-diagnoses.xlsx')
+  banff_assessment_path <- paste0(output_folder,'/',input_dataset_name,'-', timestamp,'-assessment.xlsx')
+  banff_report_path     <- paste0(output_folder,'/',input_dataset_name,'-', timestamp,'-report.xlsx')
   banff_dictionary_path <- paste0(output_folder,'/banff_dictionary.xlsx')
 
-  if(file.exists(banff_diagnosis_path))
+  if(file.exists(banff_diagnoses_path))
     stop(call. = FALSE,"
 
-Diagnosis for this file already exists in '",basename(output_folder),"'")
+Diagnoses for this file already exists in '",basename(output_folder),"'")
 
   ##### 3 - CHECK INPUT DATASET ####
 
   message("\n[1/6] - Import data")
 
   # creation of the dataset
-  banff_dataset <- read_file(banff_file)
+  banff_dataset <- read_file(input_dataset)
 
-  # creation of the banff dictionary
+  # creation of the Banff dictionary
   banff_dict        <- get_banff_dictionary(which = NULL, language = language, detail = detail)
   banff_dict_input  <- get_banff_dictionary(which = "input", language = language, detail = detail)
   banff_dict_output <- get_banff_dictionary(which = "output", language = language, detail = detail)
@@ -139,9 +139,9 @@ Diagnosis for this file already exists in '",basename(output_folder),"'")
 
     }
 
-  message("\n[2/6] - Evaluation of '",bold(banff_file_name),"'")
+  message("\n[2/6] - Evaluation of '",bold(input_dataset_name),"'")
 
-  ##### evaluation of banff dataset input.
+  ##### evaluation of Banff dataset input.
   banff_assessment <-
     suppressMessages(banff_dataset_evaluate(banff_dataset))
 
@@ -167,8 +167,8 @@ Each of the variable listed is mandatory.
 
 For further information please refer to documentation.")
 
-    message("Export banff assessment Excel files in \n'",bold(banff_assessment_path),"'\n")
-    message("Export banff dictionary Excel files in \n'",bold(banff_dictionary_path),"'\n")
+    message("Export Banff assessment Excel files in \n'",bold(banff_assessment_path),"'\n")
+    message("Export Banff dictionary Excel files in \n'",bold(banff_dictionary_path),"'\n")
 
     write_excel_allsheets(banff_assessment, banff_assessment_path)
     write_excel_allsheets(banff_dict, banff_dictionary_path)
@@ -177,71 +177,74 @@ For further information please refer to documentation.")
 
   }
 
-  message("\n[3/6] - Add diagnosis to each observation of'",bold(banff_file_name),"'")
+  message("\n[3/6] - Add diagnosis to each observation of'",
+          bold(input_dataset_name),"'")
 
-  banff_diagnosis <- add_diagnosis(banff_dataset)
+  banff_diagnoses <- add_diagnoses(banff_dataset)
 
-  message("\n[4/6] - Generate labels for each variable of '",bold(banff_file_name),"'")
+  message("\n[4/6] - Generate labels for each variable of '",
+          bold(input_dataset_name),"'")
 
-  banff_diagnosis_codeset <-
+  banff_diagnoses_codeset <-
     suppressWarnings({
       data_dict_match_dataset(
-        banff_diagnosis,
+        banff_diagnoses,
         banff_dict_output,
         output = 'dataset',data_dict_apply = TRUE)})
 
-  banff_diagnosis_dataset <-
-    dataset_zap_data_dict(banff_diagnosis_codeset) %>%
+  banff_diagnoses_dataset <-
+    dataset_zap_data_dict(banff_diagnoses_codeset) %>%
     dataset_cat_as_labels(data_dict = banff_dict_output)
 
-  banff_diagnosis <- list(
-    dataset = banff_diagnosis_dataset,
-    codeset = banff_diagnosis_codeset)
+  banff_diagnoses <- list(
+    dataset = banff_diagnoses_dataset,
+    codeset = banff_diagnoses_codeset)
 
-  message("\n[5/6] - Assessment of the the annotated '",bold(banff_file_name),"'\n")
+  message("\n[5/6] - Assessment of the the annotated '",
+          bold(input_dataset_name),"'\n")
 
   banff_report <- list()
 
   banff_report <-
     dataset_summarize(
-      dataset = banff_diagnosis$codeset,
+      dataset = banff_diagnoses$codeset,
       data_dict = banff_dict,
-      dataset_name = banff_file_name)
+      dataset_name = input_dataset_name)
 
   banff_report$`Dataset assessment - input`     <- banff_assessment$`Dataset assessment`
-  banff_report$`Dataset assessment - diagnosis` <- banff_report$`Dataset assessment`
+  banff_report$`Dataset assessment - diagnoses` <- banff_report$`Dataset assessment`
   banff_report$`Dataset assessment`             <- NULL
   banff_report$`Variables summary (all)`        <- banff_assessment$`Data dictionary summary`
 
-  banff_report$`Dataset assessment - diagnosis` <-
-    banff_report$`Dataset assessment - diagnosis` %>%
+  banff_report$`Dataset assessment - diagnoses` <-
+    banff_report$`Dataset assessment - diagnoses` %>%
     select("column" = "name","condition" = "Quality assessment comment", "value") %>%
     dplyr::filter(!.data$`column` %in% banff_report$`Dataset assessment - input`$column)
 
   banff_report <- banff_report[unique(c(
     "Overview","Dataset assessment - input",
-    "Dataset assessment - diagnosis", names(banff_report)))]
+    "Dataset assessment - diagnoses", names(banff_report)))]
 
   message("\n[6/6] - Export XLSX files in '",bold(basename(output_folder)),"'")
   message("\n")
 
   message("
 
-The assessment and addition of diagnosis on your dataset is now finished.
+The assessment and addition of diagnoses on your dataset is now finished.
 In the output folder, you will find an Excel file containing both labels and codes
 of your dataset and for each participant, additional columns corresponding to the
-diagnosis.
+diagnoses.
 
 An assessment and summary report has been generated in your output folder to help you
 assess and interpret your dataset. You can open it as an Excel file.
 
 For further information please refer to documentation.")
 
-  message("Export banff diagnostics Excel files in \n'",bold(banff_diagnosis_path),"'\n")
-  message("Export banff report Excel files in \n'",bold(banff_report_path),"'\n")
-  message("Export banff dictionary Excel files in \n'",bold(banff_dictionary_path),"'\n")
+  message("Export Banff diagnoses Excel files in \n'",bold(banff_diagnoses_path),"'\n")
+  message("Export Banff report Excel files in \n'",bold(banff_report_path),"'\n")
+  message("Export Banff dictionary Excel files in \n'",bold(banff_dictionary_path),"'\n")
 
-  write_excel_allsheets(banff_diagnosis , banff_diagnosis_path)
+  write_excel_allsheets(banff_diagnoses , banff_diagnoses_path)
   write_excel_allsheets(banff_report, banff_report_path)
   write_excel_allsheets(banff_dict, banff_dictionary_path)
 

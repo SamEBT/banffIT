@@ -1,13 +1,13 @@
 #' @title
-#' Get the banff data dictionary
+#' Get the Banff data dictionary
 #'
 #' @description
 #' This function gets the data dictionary used to control the consistency of
-#' the banff dataset.
+#' the Banff dataset.
 #'
-#' @param which Indicates which banff dictionary to get. Either "input" or
-#' "output". If NULL, both banff dictionary are provided.
-#' @param language Optional input allowing the user to get the diagnosis in a
+#' @param which Indicates which Banff dictionary to get. Either "input" or
+#' "output". If NULL, both Banff dictionary are provided.
+#' @param language Optional input allowing the user to get the diagnoses in a
 #' specific language. Options are "label:en" (default), "label:fr", "label:de",
 #' "label:sp", "label:nl", "label:jp", "label:in".
 #' @param detail Whether the output should include temporary variables generated

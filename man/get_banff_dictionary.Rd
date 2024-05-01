@@ -2,15 +2,15 @@
 % Please edit documentation in R/00_utils.R
 \name{get_banff_dictionary}
 \alias{get_banff_dictionary}
-\title{Get the banff data dictionary}
+\title{Get the Banff data dictionary}
 \usage{
 get_banff_dictionary(which = NULL, language = "label:en", detail = FALSE)
 }
 \arguments{
-\item{which}{Indicates which banff dictionary to get. Either "input" or
-"output". If NULL, both banff dictionary are provided.}
+\item{which}{Indicates which Banff dictionary to get. Either "input" or
+"output". If NULL, both Banff dictionary are provided.}
 
-\item{language}{Optional input allowing the user to get the diagnosis in a
+\item{language}{Optional input allowing the user to get the diagnoses in a
 specific language. Options are "label:en" (default), "label:fr", "label:de",
 "label:sp", "label:nl", "label:jp", "label:in".}
 
@@ -23,7 +23,7 @@ are the list of variables used, and their associated categories, if any.
 }
 \description{
 This function gets the data dictionary used to control the consistency of
-the banff dataset.
+the Banff dataset.
 }
 \examples{
 {

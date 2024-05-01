@@ -5,7 +5,7 @@
 \title{Launch the program}
 \usage{
 banff_launcher(
-  banff_file,
+  input_dataset,
   output_folder = getwd(),
   language = "label:en",
   option_filter,
@@ -13,13 +13,13 @@ banff_launcher(
 )
 }
 \arguments{
-\item{banff_file}{A character string identifying the path of the file to be
-processed.}
+\item{input_dataset}{A character string identifying the path of the dataset
+to be processed.}
 
 \item{output_folder}{A character string identifying the folder path where
 the bookdown report files will be saved.}
 
-\item{language}{Optional argument allowing the user to get the diagnosis in a
+\item{language}{Optional argument allowing the user to get the diagnoses in a
 specific language. Options are "label:en" (default), "label:fr", "label:de",
 "label:sp", "label:nl", "label:jp", "label:in".}
 
@@ -39,7 +39,7 @@ internally runs a series of tests that assess the input dataset. If any
 of these tests fails, the user gets information allowing them to correct the
 input dataset and rerun the process. Once all tests pass, the dataset
 is given as an output with a diagnosis for each observation (using the
-function \code{\link[=add_diagnosis]{add_diagnosis()}} internally). The output dataset, along with its
+function \code{\link[=add_diagnoses]{add_diagnoses()}} internally). The output dataset, along with its
 associated labels (\code{label:en} by default) are provided to the user in an Excel
 format file accessible in the output_folder specified (the working directory by
 default). The output dataset comes with a report that summarizes information
@@ -48,8 +48,8 @@ about variable distributions and descriptive statistics.
 \examples{
 {
 
-banff_file <- system.file("extdata", "example-empty.xlsx", package = "banffIT")
-banff_launcher(banff_file, output_folder = tempdir())
+input_dataset <- system.file("extdata", "template.xlsx", package = "banffIT")
+banff_launcher(input_dataset, output_folder = tempdir())
 
 }
 

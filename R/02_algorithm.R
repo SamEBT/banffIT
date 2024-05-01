@@ -1,5 +1,5 @@
 #' @title
-#' Add diagnosis to a banff dataset
+#' Add diagnoses to a Banff dataset
 #'
 #' @description
 #' This function takes a dataset and returns a diagnosis for each
@@ -10,22 +10,22 @@
 #' @param banff_dataset A tibble object.
 #'
 #' @return
-#' A tibble object that contains additional columns with the diagnosis results.
+#' A tibble object that contains additional columns with the diagnoses results.
 #'
 #' @examples
 #' {
 #'
 #' library(fabR)
-#' banff_file <- system.file("extdata", "example.xlsx", package = "banffIT")
-#' banff_dataset <- read_excel_allsheets(banff_file)[1,]
-#' add_diagnosis(banff_dataset)
+#' input_dataset <- system.file("extdata", "example.xlsx", package = "banffIT")
+#' banff_dataset <- read_excel_allsheets(input_dataset)[1,]
+#' add_diagnoses(banff_dataset)
 #'
 #' }
 #'
 #' @import dplyr
 #' @importFrom rlang .data
 #' @export
-add_diagnosis <- function(banff_dataset) {
+add_diagnoses <- function(banff_dataset) {
 
   # check input
   banff_assessment <- suppressMessages(banff_dataset_evaluate(banff_dataset))
@@ -37,7 +37,7 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
     stop(call. = TRUE)
     }
 
-  banff_diagnosis <- banff_dataset
+  banff_diagnoses <- banff_dataset
 
   #   select(
   #     "glomeruli","arteries","adequacy",
@@ -61,8 +61,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
     mutate(
       adequacy = adequacy_input_copy$`adequacy_calculated`)
 
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     mutate(
 
       nogn =
@@ -78,8 +78,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
         )
 
   # atcmr variables
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     mutate(
       active_atcmr_code_3.TEMP =
         case_when(
@@ -98,8 +98,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
         ))
 
 
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     mutate(
       chronic_atcmr_code_4.TEMP =
         case_when(
@@ -118,8 +118,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
     )
 
   # aamr1
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     mutate(
       aamr11.1 = ifelse((.data$`active_atcmr_code_3.TEMP` + .data$`active_atcmr_code_4.TEMP`) == 0 &
                         .data$`ptc_score` > 0,                            1L, 0L),
@@ -147,8 +147,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
   # activeabmr definition below because it must take camr into consideration (to verify) !!!!
   # need to be double checked
 
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     mutate(
       aamr21    = ifelse(.data$`c4d_if`  %in% c(2,3) |
                          .data$`c4d_ihc` %in% c(1,2,3),  1L, 0L),
@@ -173,8 +173,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
                          .data$`aamr22.2` == 1 |
                          .data$`aamr22.3` == 1,                             1L, 0L))
 
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     mutate(
 
       aamr      = ifelse(.data$`aamr1` == 1 &
@@ -215,8 +215,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
   # tcmr historical computation
   # ordering by transplant date and biopsy date
 
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     arrange(.data$`patient_id`, .data$`sc_date_bx`) %>%
     group_by(.data$`patient_id`) %>%
     mutate(
@@ -239,8 +239,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
 
   # Check with Jan chronic vs chronic active (camr11 + camr12 vs camr1 = camr11 + camr12 + camr13)
 
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     mutate(
 
       camr11 = ifelse(.data$`cg_score`    != "0" &
@@ -256,8 +256,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
         TRUE                                                        ~ 0L)
     )
 
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     mutate(
 
       camr1 = ifelse(.data$`camr11` == 1L |
@@ -284,9 +284,9 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
     )
 
   ## C4d negative aamr
-  # removed | banff_diagnosis$dsaneg_camr == 1 because it is captured by the camr definition
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  # removed | banff_diagnoses$dsaneg_camr == 1 because it is captured by the camr definition
+  banff_diagnoses <-
+    banff_diagnoses %>%
     mutate(
 
       c4dneg_camr      = ifelse(.data$`camr1`      == 1  &
@@ -318,8 +318,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
 
   # chronic abmr variables
   # camr and aamr historical computation
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     arrange(.data$`patient_id`, .data$`sc_date_bx`) %>%
     group_by(.data$`patient_id`) %>%
     mutate(
@@ -341,8 +341,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
 
 
   # hist.abmr variable is a future variable, which people input directly, instead of deriding data.
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     mutate(
 
       # ifelse((.data$hist.abmr == 1), 1L,
@@ -366,8 +366,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
 
   # final abmr variable
   # final suspicious abmr
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     mutate(
 
       final_abmr = case_when(
@@ -396,8 +396,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
         TRUE                        ~  NA)
     )
 
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     mutate(
 
       diag_code_2 = case_when(
@@ -433,30 +433,30 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
       diag_code_infec              = ifelse(.data$`infec` == 0,NA,7),
       diag_code_ain                = ifelse(.data$`ain`   == 0,NA,8))
 
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     mutate(
       diag_code_1 = ifelse(rowSums(is.na(select(
-        banff_diagnosis, starts_with("diag_code"),-"diag_code_5"))) ==
-          ncol(select(banff_diagnosis, starts_with("diag_code"),-"diag_code_5")), 1, NA))
+        banff_diagnoses, starts_with("diag_code"),-"diag_code_5"))) ==
+          ncol(select(banff_diagnoses, starts_with("diag_code"),-"diag_code_5")), 1, NA))
 
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     select(-contains('.TEMP'))
 
   # replace adequacy by what it was originally
-  banff_diagnosis <-
-    banff_diagnosis %>%
+  banff_diagnoses <-
+    banff_diagnoses %>%
     bind_cols(adequacy_input_copy) %>%
     mutate(adequacy = .data$`adequacy_input`) %>%
     select(-"adequacy_input")
 
-  return(banff_diagnosis)
+  return(banff_diagnoses)
 
 }
 
 #' @title
-#' Assess a banff dataset
+#' Assess a Banff dataset
 #'
 #' @description
 #' This function takes a dataset and evaluates its format and content based
@@ -471,8 +471,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
 #' {
 #'
 #' library(fabR)
-#' banff_file <- system.file("extdata", "example.xlsx", package = "banffIT")
-#' banff_dataset <- read_excel_allsheets(banff_file)[1,]
+#' input_dataset <- system.file("extdata", "example.xlsx", package = "banffIT")
+#' banff_dataset <- read_excel_allsheets(input_dataset)[1,]
 #' banff_dataset_evaluate(banff_dataset)
 #'
 #' }
@@ -499,14 +499,14 @@ banff_dataset_evaluate <- function(banff_dataset) {
 
     attributes(banff_assessment)$`error` <- "
 
-The dataset you provided is not a banff dataset. It must be a data frame object
+The dataset you provided is not a Banff dataset. It must be a data frame object
 that must contain a minimal list of variables used in the process."
 
     banff_assessment$`Dataset assessment` <-
       tibble(
         column = '(all)',
         "Assessment comment" =
-          "[ERR] - The dataset you provided is not a banff dataset")
+          "[ERR] - The dataset you provided is not a Banff dataset")
 
     message(attributes(banff_assessment)$`error`)
     return(banff_assessment)
@@ -561,12 +561,12 @@ toString(test_missing_cols) %>% str_replace_all(", ","\n"))
 
     attributes(banff_assessment)$`empty` <- "
 
-Your banff dataset is empty."
+Your Banff dataset is empty."
 
     banff_assessment$`Dataset assessment` <-
       tibble(
         "column" = test_missing_cols,
-        "Assessment comment" = "[INFO] - Empty banff dataset.")
+        "Assessment comment" = "[INFO] - Empty Banff dataset.")
 
     message(attributes(banff_assessment)$`error`)
     return(banff_assessment)
@@ -603,7 +603,7 @@ Your banff dataset is empty."
     attributes(banff_assessment)$`error` = paste0("
 
 Some variables in your dataset contain missing values (NA).
-The definition in the banff dictionary require that all the observations for
+The definition in the Banff dictionary require that all the observations for
 these variable must be filled with proper categories, and cannot contain NA.
 Usually, you can replace all these NA by '0'.
 
@@ -645,13 +645,15 @@ toString(contains_na) %>% str_replace_all(", ","\n"))
 
         ## patch, fix error later
         add_row(test_dataset[1,] %>%
-                mutate(across(c("sc_date_bx","date_tx"), ~ as_any_date("1983-07-19")))),
+                mutate(across(c("sc_date_bx","date_tx"),
+                              ~ as_any_date("1983-07-19")))),
 
       banff_dict_input,valueType_guess = TRUE) %>%
     dplyr::filter(!str_detect(.data$`condition`,'\\[INFO\\]')) %>%
     mutate(
       column = .data$`name_var`,
-      `Assessment comment` = "[ERR] - The variable type is not compatible with the banff dictionary") %>%
+      `Assessment comment` =
+    "[ERR] - The variable type is not compatible with the Banff dictionary") %>%
     select("column","Assessment comment")
 
   #### * test_unique_id ####
@@ -937,8 +939,8 @@ Your dataset contains no error."
 #' {
 #'
 #' library(fabR)
-#' banff_file <- system.file("extdata", "example.xlsx", package = "banffIT")
-#' banff_dataset <- read_excel_allsheets(banff_file)
+#' input_dataset <- system.file("extdata", "example.xlsx", package = "banffIT")
+#' banff_dataset <- read_excel_allsheets(input_dataset)
 #' calculate_adequacy(banff_dataset)
 #'
 #' }
@@ -988,30 +990,30 @@ madshapR::dataset_summarize
 
 
 #  @title
-#  summarise a banff dataset with its diagnosis
+#  summarise a Banff dataset with its diagnoses
 #
 #  @description
-#  Assesses and summarizes the content and structure of a banff dataset (with
-#  diagnosis) and generates reports of the results. This function can be used
+#  Assesses and summarizes the content and structure of a Banff dataset (with
+#  diagnoses) and generates reports of the results. This function can be used
 #  to evaluate data structure, and to summarize additional information about
 #  variable distributions and descriptive statistics.
 #
-#  @param banff_diagnosis A banff dataset object with diagnosis.
+#  @param banff_diagnoses A Banff dataset object with diagnoses.
 #  @param banff_assessment A tibble object.
 #  @param banff_dict A list of tibble objects giving information on the
-#  assessment of the banff dataset.
-#  @param banff_file_name A character string specifying the name of the dataset.
+#  assessment of the Banff dataset.
+#  @param input_dataset_name A character string specifying the name of the dataset.
 #
 #  @return
-#  A list of tibble objects giving information on the summary of the banff
+#  A list of tibble objects giving information on the summary of the Banff
 #  dataset.
 #
 #  @examples
 #  {
 #
 #  library(fabR)
-#  banff_file <- system.file("extdata", "example.xlsx", package = "banffIT")
-#  banff_dataset <- read_excel_allsheets(banff_file)[1,]
+#  input_dataset <- system.file("extdata", "example.xlsx", package = "banffIT")
+#  banff_dataset <- read_excel_allsheets(input_dataset)[1,]
 #  banff_dataset_evaluate(banff_dataset)
 #
 #  }
@@ -1020,33 +1022,33 @@ madshapR::dataset_summarize
 #  @importFrom rlang .data
 #  @export
 # banff_dataset_summarize <- function(
-#     banff_diagnosis,
+#     banff_diagnoses,
 #     banff_assessment = NULL,
 #     banff_dict,
-#     banff_file_name) {
+#     input_dataset_name) {
 #
 #   if(is.null(banff_assessment))
-#     banff_assessment <- banff_dataset_evaluate(banff_diagnosis$codeset)
+#     banff_assessment <- banff_dataset_evaluate(banff_diagnoses$codeset)
 #
 #   banff_report <-
 #     banff_dataset_summarize(
-#       dataset = banff_diagnosis$codeset,
+#       dataset = banff_diagnoses$codeset,
 #       data_dict = banff_dict,
-#       dataset_name = banff_file_name)
+#       dataset_name = input_dataset_name)
 #
 #   banff_report$`Dataset assessment - input`     <- banff_assessment$`Dataset assessment`
-#   banff_report$`Dataset assessment - diagnosis` <- banff_report$`Dataset assessment`
+#   banff_report$`Dataset assessment - diagnoses` <- banff_report$`Dataset assessment`
 #   banff_report$`Dataset assessment`             <- NULL
 #   banff_report$`Variables summary (all)`        <- banff_assessment$`Data dictionary summary`
 #
-#   banff_report$`Dataset assessment - diagnosis` <-
-#     banff_report$`Dataset assessment - diagnosis` %>%
+#   banff_report$`Dataset assessment - diagnoses` <-
+#     banff_report$`Dataset assessment - diagnoses` %>%
 #     select("column" = "name","condition" = "Quality assessment comment", "value") %>%
 #     dplyr::filter(!.data$`column` %in% banff_report$`Dataset assessment - input`$column)
 #
 #   banff_report <- banff_report[unique(c(
 #     "Overview","Dataset assessment - input",
-#     "Dataset assessment - diagnosis", names(banff_report)))]
+#     "Dataset assessment - diagnoses", names(banff_report)))]
 #
 #   return(banff_report)
 #

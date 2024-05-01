@@ -2,7 +2,7 @@
 % Please edit documentation in R/02_algorithm.R
 \name{banff_dataset_evaluate}
 \alias{banff_dataset_evaluate}
-\title{Assess a banff dataset}
+\title{Assess a Banff dataset}
 \usage{
 banff_dataset_evaluate(banff_dataset)
 }
@@ -20,8 +20,8 @@ on the accepted format specified in the data dictionary.
 {
 
 library(fabR)
-banff_file <- system.file("extdata", "example.xlsx", package = "banffIT")
-banff_dataset <- read_excel_allsheets(banff_file)[1,]
+input_dataset <- system.file("extdata", "example.xlsx", package = "banffIT")
+banff_dataset <- read_excel_allsheets(input_dataset)[1,]
 banff_dataset_evaluate(banff_dataset)
 
 }
