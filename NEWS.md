@@ -2,7 +2,7 @@
 # banffIT 0.1.0
 
 The banffIT package provides provides functions to assign standardized
-diagnoses using the Banff Classification (Category 1 to 6 diagnosis,
+diagnoses using the Banff Classification (Category 1 to 6 diagnoses,
 including Acute and Chronic active T-cell mediated rejection as well as
 Active, Chronic active, and Chronic antibody mediated rejection). The
 main function `banff_launcher()`considers a minimal dataset containing
@@ -25,7 +25,7 @@ dictionary), assign diagnoses, and create a summary report.
   that summarizes information about variable distributions and
   descriptive statistics.
 
-## additional functions (used in the main function, but can be used separately)
+## Additional functions (used in the main function, but can be used separately)
 
 - function `banff_dataset_evaluate()` This function takes a dataset and
   evaluates its format and content based on the accepted format

@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The banffIT package provides provides functions to assign standardized diagnoses 
+The banffIT package provides functions to assign standardized diagnoses 
 using the Banff Classification (Category 1 to 6 diagnoses, including Acute 
 and Chronic active T-cell mediated rejection as well as Active, 
 Chronic active, and Chronic antibody mediated rejection). The main function 
@@ -27,16 +27,29 @@ report.
 
 ## Install the package and use the example file
 
+This command example runs the diagnosis assignment process on the dataset 
+specified in the input_file path. The output files will be saved in
+path_folder/example. The diagnoses will be displayed in English and only 
+observation with adequacy == 1 will be taken into consideration due to the 
+option_filter argument. Finally, the output dataset will contain variables 
+generated in the process due to the argument "detail" set to TRUE.
+
 ```{r, eval=FALSE}
-# To install banffIT:
+
+# To install banffIT
 install.packages('banffIT')
 
 library(banffIT)
 # If you need help with the package, please use:
 banffIT_website()
 
-# use the example file provided. remplace tempdir by a directory name.
-input_dataset <- system.file("extdata", "example.xlsx", package = "banffIT")
-banff_launcher(input_dataset, output_folder = tempdir())
+# use example
+input_file = system.file("extdata", "example.xlsx", package = "banffIT")
+banff_launcher(
+  input_file = input_file,
+  output_folder = 'folder_path/example',
+  language = 'label:en',
+  option_filter = adequacy == 1,
+  detail = TRUE)
 
 ```
