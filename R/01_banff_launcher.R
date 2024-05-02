@@ -13,7 +13,7 @@
 #' default). The output dataset comes with a report that summarizes information
 #' about variable distributions and descriptive statistics.
 #'
-#' @param input_dataset A character string identifying the path of the dataset
+#' @param input_file A character string identifying the path of the dataset
 #' to be processed.
 #' @param output_folder A character string identifying the folder path where
 #' the bookdown report files will be saved.
@@ -32,8 +32,8 @@
 #' @examples
 #' {
 #'
-#' input_dataset <- system.file("extdata", "template.xlsx", package = "banffIT")
-#' banff_launcher(input_dataset, output_folder = tempdir())
+#' input_file <- system.file("extdata", "template.xlsx", package = "banffIT")
+#' banff_launcher(input_file, output_folder = tempdir())
 #'
 #' }
 #'
@@ -45,14 +45,14 @@
 #' @importFrom crayon bold
 #' @export
 banff_launcher <- function(
-    input_dataset,
+    input_file,
     output_folder = getwd(),
     language = "label:en",
     option_filter,
     detail = FALSE){
 
   # Function to read csv or xlsx file
-  read_file <- function(file_path = input_dataset) {
+  read_file <- function(file_path = input_file) {
     # Check the file extension
     file_extension <- file_ext(file_path)
 
@@ -94,15 +94,15 @@ Press [enter] to continue or [esc] to quit.
   if(!dir.exists(output_folder)) dir_create(output_folder)
 
   # names of objects to be generated in the folder. construct name and check previous existence.
-  input_dataset_name  <- make.names(path_ext_remove(basename(input_dataset)))
+  input_file_name  <- make.names(path_ext_remove(basename(input_file)))
 
   timestamp <-
     str_replace_all(str_replace_all(
       toString(trunc(Sys.time(), units = "secs")),":","")," ","-")
 
-  banff_diagnoses_path  <- paste0(output_folder,'/',input_dataset_name,'-', timestamp,'-diagnoses.xlsx')
-  banff_assessment_path <- paste0(output_folder,'/',input_dataset_name,'-', timestamp,'-assessment.xlsx')
-  banff_report_path     <- paste0(output_folder,'/',input_dataset_name,'-', timestamp,'-report.xlsx')
+  banff_diagnoses_path  <- paste0(output_folder,'/',input_file_name,'-', timestamp,'-diagnoses.xlsx')
+  banff_assessment_path <- paste0(output_folder,'/',input_file_name,'-', timestamp,'-assessment.xlsx')
+  banff_report_path     <- paste0(output_folder,'/',input_file_name,'-', timestamp,'-report.xlsx')
   banff_dictionary_path <- paste0(output_folder,'/banff_dictionary.xlsx')
 
   if(file.exists(banff_diagnoses_path))
@@ -115,7 +115,7 @@ Diagnoses for this file already exists in '",basename(output_folder),"'")
   message("\n[1/6] - Import data")
 
   # creation of the dataset
-  banff_dataset <- read_file(input_dataset)
+  banff_dataset <- read_file(input_file)
 
   # creation of the Banff dictionary
   banff_dict        <- get_banff_dictionary(which = NULL, language = language, detail = detail)
@@ -139,7 +139,7 @@ Diagnoses for this file already exists in '",basename(output_folder),"'")
 
     }
 
-  message("\n[2/6] - Evaluation of '",bold(input_dataset_name),"'")
+  message("\n[2/6] - Evaluation of '",bold(input_file_name),"'")
 
   ##### evaluation of Banff dataset input.
   banff_assessment <-
@@ -178,12 +178,12 @@ For further information please refer to documentation.")
   }
 
   message("\n[3/6] - Add diagnosis to each observation of'",
-          bold(input_dataset_name),"'")
+          bold(input_file_name),"'")
 
   banff_diagnoses <- add_diagnoses(banff_dataset)
 
   message("\n[4/6] - Generate labels for each variable of '",
-          bold(input_dataset_name),"'")
+          bold(input_file_name),"'")
 
   banff_diagnoses_codeset <-
     suppressWarnings({
@@ -201,7 +201,7 @@ For further information please refer to documentation.")
     codeset = banff_diagnoses_codeset)
 
   message("\n[5/6] - Assessment of the the annotated '",
-          bold(input_dataset_name),"'\n")
+          bold(input_file_name),"'\n")
 
   banff_report <- list()
 
@@ -209,7 +209,7 @@ For further information please refer to documentation.")
     dataset_summarize(
       dataset = banff_diagnoses$codeset,
       data_dict = banff_dict,
-      dataset_name = input_dataset_name)
+      dataset_name = input_file_name)
 
   banff_report$`Dataset assessment - input`     <- banff_assessment$`Dataset assessment`
   banff_report$`Dataset assessment - diagnoses` <- banff_report$`Dataset assessment`

@@ -5,7 +5,7 @@
 \title{Launch the program}
 \usage{
 banff_launcher(
-  input_dataset,
+  input_file,
   output_folder = getwd(),
   language = "label:en",
   option_filter,
@@ -13,7 +13,7 @@ banff_launcher(
 )
 }
 \arguments{
-\item{input_dataset}{A character string identifying the path of the dataset
+\item{input_file}{A character string identifying the path of the dataset
 to be processed.}
 
 \item{output_folder}{A character string identifying the folder path where
@@ -48,8 +48,8 @@ about variable distributions and descriptive statistics.
 \examples{
 {
 
-input_dataset <- system.file("extdata", "template.xlsx", package = "banffIT")
-banff_launcher(input_dataset, output_folder = tempdir())
+input_file <- system.file("extdata", "template.xlsx", package = "banffIT")
+banff_launcher(input_file, output_folder = tempdir())
 
 }
 

@@ -20,8 +20,8 @@ on the accepted format specified in the data dictionary.
 {
 
 library(fabR)
-input_dataset <- system.file("extdata", "example.xlsx", package = "banffIT")
-banff_dataset <- read_excel_allsheets(input_dataset)[1,]
+input_file <- system.file("extdata", "example.xlsx", package = "banffIT")
+banff_dataset <- read_excel_allsheets(input_file)[1,]
 banff_dataset_evaluate(banff_dataset)
 
 }

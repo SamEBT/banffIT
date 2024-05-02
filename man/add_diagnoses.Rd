@@ -22,8 +22,8 @@ that \code{\link[=banff_launcher]{banff_launcher()}} would have detected. Please
 {
 
 library(fabR)
-input_dataset <- system.file("extdata", "example.xlsx", package = "banffIT")
-banff_dataset <- read_excel_allsheets(input_dataset)[1,]
+input_file <- system.file("extdata", "example.xlsx", package = "banffIT")
+banff_dataset <- read_excel_allsheets(input_file)[1,]
 add_diagnoses(banff_dataset)
 
 }

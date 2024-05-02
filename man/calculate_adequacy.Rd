@@ -21,8 +21,8 @@ arteries variables (if provided).
 {
 
 library(fabR)
-input_dataset <- system.file("extdata", "example.xlsx", package = "banffIT")
-banff_dataset <- read_excel_allsheets(input_dataset)
+input_file <- system.file("extdata", "example.xlsx", package = "banffIT")
+banff_dataset <- read_excel_allsheets(input_file)
 calculate_adequacy(banff_dataset)
 
 }
