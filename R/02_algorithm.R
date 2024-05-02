@@ -16,8 +16,8 @@
 #' {
 #'
 #' library(fabR)
-#' input_dataset <- system.file("extdata", "example.xlsx", package = "banffIT")
-#' banff_dataset <- read_excel_allsheets(input_dataset)[1,]
+#' input_file <- system.file("extdata", "example.xlsx", package = "banffIT")
+#' banff_dataset <- read_excel_allsheets(input_file)[1,]
 #' add_diagnoses(banff_dataset)
 #'
 #' }
@@ -471,8 +471,8 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
 #' {
 #'
 #' library(fabR)
-#' input_dataset <- system.file("extdata", "example.xlsx", package = "banffIT")
-#' banff_dataset <- read_excel_allsheets(input_dataset)[1,]
+#' input_file <- system.file("extdata", "example.xlsx", package = "banffIT")
+#' banff_dataset <- read_excel_allsheets(input_file)[1,]
 #' banff_dataset_evaluate(banff_dataset)
 #'
 #' }
@@ -491,7 +491,9 @@ banff_dataset_evaluate <- function(banff_dataset) {
     `Dataset assessment` =
       tibble(
         column = as.character(),
-        `Assessment comment` = as.character()))
+        `Assessment comment` = as.character(),
+        `Row number` = as.character())
+    )
 
   ##### Test : if is a dataset #####
 
@@ -537,15 +539,14 @@ Your dataset contains no variables that matches the data dictionary."
 
   }
 
-  # if some cols are missing
+###### if some cols are missing
   if(length(test_missing_cols) > 0){
 
-    attributes(banff_assessment)$`error` <- message("
+    attributes(banff_assessment)$`error` <- paste0("
 
 Some variables in your dataset are missing.
 Missing variables in dataset : \n\n",
 toString(test_missing_cols) %>% str_replace_all(", ","\n"))
-
 
     banff_assessment$`Dataset assessment` <-
       tibble(
@@ -610,10 +611,27 @@ Usually, you can replace all these NA by '0'.
 Variables in the dataset that contain NA : \n\n",
 toString(contains_na) %>% str_replace_all(", ","\n"))
 
+    for(i in contains_na){
+      # stop()}
 
-    banff_assessment$`Dataset assessment` <-
-      tibble("column" = contains_na,
-             "Assessment comment" = "[ERR] - Contain some missing values (NA)")
+      banff_assessment$`Dataset assessment` <-
+        banff_assessment$`Dataset assessment` %>%
+        bind_rows(
+          test_dataset %>%
+            add_index() %>%
+            select('index',all_of(i)) %>%
+            filter(is.na(!! as.symbol(i))) %>%
+            reframe(
+              `Row number` = paste0(.data$`index`,collapse = ' ; ')) %>%
+            mutate(`Row number` = str_trunc(.data$`Row number`, width = 50,
+                                            ellipsis = '...')) %>%
+            mutate(
+              column = i,
+              `Assessment comment` = "[ERR] - Contain some missing values (NA)",
+              `Row number` = str_trunc(.data$`Row number`, width = 50, ellipsis = '...')
+              ) %>%
+            select("column","Assessment comment","Row number"))
+    }
 
     message(attributes(banff_assessment)$`error`)
     return(banff_assessment)
@@ -653,26 +671,35 @@ toString(contains_na) %>% str_replace_all(", ","\n"))
     mutate(
       column = .data$`name_var`,
       `Assessment comment` =
-    "[ERR] - The variable type is not compatible with the Banff dictionary") %>%
-    select("column","Assessment comment")
+    "[ERR] - The variable type is not compatible with the Banff dictionary",
+    `Row number` = "(all)") %>%
+    select("column","Assessment comment","Row number")
 
   #### * test_unique_id ####
   # non unique (patient_id, centre, biopsy_id,sc_date_bx)
 
-  test_unique_id <-
+  has_unique_id <-
     test_dataset %>%
     group_by(.data$`patient_id`, .data$`centre`, .data$`biopsy_id`, .data$`sc_date_bx`) %>%
-    count() %>% dplyr::filter(.data$`n`  > 2) %>%
-    ungroup %>%
+    count() %>% dplyr::filter(.data$`n`  >= 2) %>%
+    inner_join(
+      test_dataset %>%
+        select('patient_id','centre','biopsy_id','sc_date_bx') %>%
+        add_index(),
+      by = join_by('patient_id', 'centre', 'biopsy_id', 'sc_date_bx')) %>%
+    ungroup
+
+  if(nrow(has_unique_id) > 1)
+    test_unique_id <-
+    has_unique_id %>%
+    reframe(
+      `Row number` = paste0(.data$`index`,collapse = ' ; ')) %>%
     mutate(
       column = "Unique ID",
       `Assessment comment` = paste0(
-        "[ERR] - Multiple observations for : patient_id(",
-        .data$`patient_id`,") - centre(",
-        .data$`centre`, ") - biopsy_id(",
-        .data$`biopsy_id`,") - sc_date_bx(",
-        .data$`sc_date_bx`,")")) %>%
-    select("column","Assessment comment")
+        "[ERR] - Multiple observations (same patient_id/centre/biopsy_id/sc_date_bx)"),
+      `Row number` = str_trunc(.data$`Row number`, width = 50,ellipsis = '...')) %>%
+    select("column","Assessment comment","Row number")
 
   #### * test_unique_value ####
   # column with unique value          WARNING
@@ -683,9 +710,10 @@ toString(contains_na) %>% str_replace_all(", ","\n"))
       ungroup() %>%
       mutate(
         column = .data$`col_name`,
-        `Assessment comment` = "[INFO] - All the values are identical") %>%
-      select("column","Assessment comment")}
-
+        `Assessment comment` = "[INFO] - All the values are identical",
+        `Row number` = "(all)") %>%
+      select("column","Assessment comment","Row number")
+    }
 
   #### * test_duplicate_col ####
   # possible duplicated columns       WARNING
@@ -699,8 +727,9 @@ toString(contains_na) %>% str_replace_all(", ","\n"))
     mutate(
       column = .data$`col_name`,
       `Assessment comment` = paste0(
-        "[INFO] - ",.data$`condition`)) %>%
-    select("column","Assessment comment")
+        "[INFO] - ",.data$`condition`),
+      `Row number` = "(all)") %>%
+    select("column","Assessment comment","Row number")
 
   #### * test_all_na ####
   # all NA column                     WARNING
@@ -712,12 +741,15 @@ toString(contains_na) %>% str_replace_all(", ","\n"))
     mutate(arteries = ifelse(.data$`adequacy` == FALSE, FALSE, .data$`arteries`)) %>%
     pivot_longer(everything(),names_to = "column",values_to = "Assessment comment") %>%
     dplyr::filter(.data$`Assessment comment` == TRUE) %>%
-    mutate(`Assessment comment` = "[INFO] - All the values are missing (NA)")
+    mutate(
+      `Assessment comment` = "[INFO] - All the values are missing (NA)",
+      `Row number` = "(all)") %>%
+    select("column","Assessment comment","Row number")
 
   #### * test_any_na ####
-  # all NA column                     WARNING
+  # any NA column                     WARNING
 
-  test_any_na <-
+  has_any_na <-
     test_dataset %>%
     select(- all_of(test_all_na$`column`)) %>%
     summarize(across(-(all_of(no_na_accepted)), (~ any(is.na(.))))) %>%
@@ -725,71 +757,118 @@ toString(contains_na) %>% str_replace_all(", ","\n"))
     mutate(arteries = ifelse(.data$`adequacy` == FALSE, FALSE, .data$`arteries`)) %>%
     pivot_longer(everything(),names_to = "column",values_to = "Assessment comment") %>%
     dplyr::filter(.data$`Assessment comment` == TRUE) %>%
-    mutate(`Assessment comment` = "[INFO] - The column has missing values")
+    pull(.data$`column`)
+
+  if(length(has_any_na) > 1){
+
+    for(i in has_any_na){
+      # stop()}
+
+      test_any_na <-
+        test_any_na %>%
+        bind_rows(
+          test_dataset %>%
+            add_index() %>%
+            select('index',all_of(i)) %>%
+            filter(is.na(!! as.symbol(i))) %>%
+            reframe(
+              `Row number` = paste0(.data$`index`,collapse = ' ; ')) %>%
+            mutate(`Row number` = str_trunc(.data$`Row number`, width = 50,
+                                            ellipsis = '...')) %>%
+            mutate(
+              column = i,
+              `Assessment comment` = "[INFO] - The column has missing values",
+              `Row number` =
+                str_trunc(.data$`Row number`, width = 50, ellipsis = '...')) %>%
+            select("column","Assessment comment","Row number"))
+    }
+  }
 
   #### * test_valid_dates ####
   # sc_date_bx date_tx: must be between 1900 and today ERR
 
   test_valid_dates <-
     test_dataset %>%
+    add_index() %>%
     dplyr::filter(.data$`date_tx` > as_any_date(Sys.time()) | .data$`date_tx` < as.Date("1900-01-01")) %>%
+    reframe(
+      `Row number` = paste0(.data$`index`,collapse = ' ; ')) %>%
     mutate(
       column = "date_tx",
-      `Assessment comment` = "[ERR] - Some dates in 'date_tx' are not be between 1900-01-01 and today") %>%
-    select("column","Assessment comment") %>%
+      `Assessment comment` = "[ERR] - Some dates in 'date_tx' are not be between 1900-01-01 and today",
+      `Row number` = str_trunc(.data$`Row number`, width = 50, ellipsis = '...')) %>%
     bind_rows(
       test_dataset %>%
+        add_index() %>%
         dplyr::filter(.data$`sc_date_bx` > as_any_date(Sys.time()) | .data$`sc_date_bx` < as.Date("1900-01-01")) %>%
+        reframe(
+          `Row number` = paste0(.data$`index`,collapse = ' ; ')) %>%
         mutate(
           column = "sc_date_bx",
-          `Assessment comment` = "[ERR] - Some dates in 'sc_date_bx' are not be between 1900-01-01 and today")) %>%
-    select("column","Assessment comment") %>%
-    distinct()
+          `Assessment comment` = "[ERR] - Some dates in 'sc_date_bx' are not be between 1900-01-01 and today",
+          `Row number` = str_trunc(.data$`Row number`, width = 50, ellipsis = '...'))) %>%
+    select("Row number","column","Assessment comment") %>%
+    filter(.data$`Row number` != '')
 
   #### * test_adequacy ####
   # test adequacy
 
   test_adequacy <-
     adequacy_input_copy %>%
+    add_index() %>%
     dplyr::filter(is.na(.data$`adequacy_calculated`)) %>%
+    reframe(
+      `Row number` = paste0(.data$`index`,collapse = ' ; ')) %>%
     mutate(
       column = "adequacy",
-      `Assessment comment` = "[ERR] - Some information in adequacy, glomeruli or arteries are missing") %>%
+      `Assessment comment` = "[ERR] - Some information in adequacy, glomeruli or arteries are missing",
+      `Row number` = str_trunc(.data$`Row number`, width = 50, ellipsis = '...')) %>%
     bind_rows(
       adequacy_input_copy %>%
+        add_index() %>%
         dplyr::filter(
           !is.na(.data$`adequacy_input`) &
           .data$`adequacy_calculated` != .data$`adequacy_input`) %>%
+        reframe(
+          `Row number` = paste0(.data$`index`,collapse = ' ; ')) %>%
         mutate(
           column = "adequacy",
-          `Assessment comment` = "[INFO] - For some values, adequacy differ from adequacy_calculated")) %>%
-    select("column","Assessment comment") %>%
-    distinct()
+          `Assessment comment` = "[INFO] - For some values, adequacy differ from adequacy_calculated",
+          `Row number` = str_trunc(.data$`Row number`, width = 50, ellipsis = '...'))) %>%
+    select("Row number","column","Assessment comment") %>%
+    filter(.data$`Row number` != '')
 
   #### * test_gs ####
   # gs entre 0 et 100
 
   test_gs <-
     test_dataset %>%
+    add_index() %>%
     dplyr::filter(.data$`gs` < 0 | .data$`gs` > 100) %>%
+    reframe(
+      `Row number` = paste0(.data$`index`,collapse = ' ; ')) %>%
     mutate(
       column = "gs",
-      `Assessment comment` = "[ERR] - Some values in 'gs' are not be between 0 and 100")%>%
-    select("column","Assessment comment") %>%
-    distinct()
+      `Assessment comment` = "[ERR] - Some values in 'gs' are not be between 0 and 100",
+      `Row number` = str_trunc(.data$`Row number`, width = 50, ellipsis = '...')) %>%
+  select("Row number","column","Assessment comment") %>%
+  filter(.data$`Row number` != '')
 
   #### * test_sptcbmml ####
   # is.na(sptcbmml) == TRUE only if microscopy == 0 ERROR
 
   test_sptcbmml <-
     test_dataset %>%
-    select("microscopy","sptcbmml") %>%
+    add_index() %>%
     dplyr::filter(is.na(.data$`sptcbmml`) & .data$`microscopy` != 0) %>%
+    reframe(
+      `Row number` = paste0(.data$`index`,collapse = ' ; ')) %>%
     mutate(
       column = "sptcbmml",
-      `Assessment comment` = "[ERR] - sptcbmml has some missing values when microscopy is 0") %>%
-    select("column","Assessment comment") %>%
-    distinct()
+      `Assessment comment` = "[ERR] - sptcbmml has some missing values when microscopy is 0",
+      `Row number` = str_trunc(.data$`Row number`, width = 50, ellipsis = '...')) %>%
+    select("Row number","column","Assessment comment") %>%
+    filter(.data$`Row number` != '')
 
   #### * test_categories ####
   # category in dd but not in dataset WARNING
@@ -807,7 +886,9 @@ toString(contains_na) %>% str_replace_all(", ","\n"))
   }
 
   if(nrow(test_dataset) == 1){
-    test_categories <- tibble("column" = as.character(),"Assessment comment" = as.character())
+    test_categories <- tibble("column" = as.character(),
+                              "Assessment comment" = as.character(),
+                              "Row number" = as.character())
   }else{
     for(i in categorical_variables){
       # stop()}
@@ -824,7 +905,9 @@ toString(contains_na) %>% str_replace_all(", ","\n"))
           bind_rows(
             tibble(
               column = i,
-              `Assessment comment` = "[INFO] - Some values are only present in the data dictionary"))}
+              `Assessment comment` = "[INFO] - Some values are only present in the data dictionary",
+              `Row number` = "(all)")
+            )}
 
       if(length(cat_in_ds_only) > 0){
         test_categories <-
@@ -832,7 +915,8 @@ toString(contains_na) %>% str_replace_all(", ","\n"))
           bind_rows(
             tibble(
               column = i,
-              `Assessment comment` = "[ERR] - Some values found in the dataset are not in the data dictionary"))}
+              `Assessment comment` = "[ERR] - Some values found in the dataset are not in the data dictionary",
+              `Row number` = "(all)"))}
     }
   }
 
@@ -864,7 +948,8 @@ toString(contains_na) %>% str_replace_all(", ","\n"))
   test_no_fail <-
     tibble(column = names(test_dataset)) %>%
     dplyr::filter(!.data$`column` %in% all_tests$`column`) %>%
-    mutate(`Assessment comment` = "No problem detected")
+    mutate(`Assessment comment` = "No problem detected",
+           `Row number` = "(all)")
 
   if("Unique ID" %in% all_tests$`column`){
     test_no_fail <-
@@ -879,7 +964,7 @@ toString(contains_na) %>% str_replace_all(", ","\n"))
     mutate(index = as.integer(.data$`index`),
            index = replace_na(.data$`index`,0L)) %>%
     arrange(.data$`index`) %>%
-    select("column","Assessment comment")
+    select("column","Row number","Assessment comment")
 
   if(sum(str_detect(
     banff_assessment$`Dataset assessment`$`Assessment comment`,"\\[ERR\\]")) > 0){
@@ -939,8 +1024,8 @@ Your dataset contains no error."
 #' {
 #'
 #' library(fabR)
-#' input_dataset <- system.file("extdata", "example.xlsx", package = "banffIT")
-#' banff_dataset <- read_excel_allsheets(input_dataset)
+#' input_file <- system.file("extdata", "example.xlsx", package = "banffIT")
+#' banff_dataset <- read_excel_allsheets(input_file)
 #' calculate_adequacy(banff_dataset)
 #'
 #' }
@@ -1002,7 +1087,7 @@ madshapR::dataset_summarize
 #  @param banff_assessment A tibble object.
 #  @param banff_dict A list of tibble objects giving information on the
 #  assessment of the Banff dataset.
-#  @param input_dataset_name A character string specifying the name of the dataset.
+#  @param input_file_name A character string specifying the name of the dataset.
 #
 #  @return
 #  A list of tibble objects giving information on the summary of the Banff
@@ -1012,8 +1097,8 @@ madshapR::dataset_summarize
 #  {
 #
 #  library(fabR)
-#  input_dataset <- system.file("extdata", "example.xlsx", package = "banffIT")
-#  banff_dataset <- read_excel_allsheets(input_dataset)[1,]
+#  input_file <- system.file("extdata", "example.xlsx", package = "banffIT")
+#  banff_dataset <- read_excel_allsheets(input_file)[1,]
 #  banff_dataset_evaluate(banff_dataset)
 #
 #  }
@@ -1025,7 +1110,7 @@ madshapR::dataset_summarize
 #     banff_diagnoses,
 #     banff_assessment = NULL,
 #     banff_dict,
-#     input_dataset_name) {
+#     input_file_name) {
 #
 #   if(is.null(banff_assessment))
 #     banff_assessment <- banff_dataset_evaluate(banff_diagnoses$codeset)
@@ -1034,7 +1119,7 @@ madshapR::dataset_summarize
 #     banff_dataset_summarize(
 #       dataset = banff_diagnoses$codeset,
 #       data_dict = banff_dict,
-#       dataset_name = input_dataset_name)
+#       dataset_name = input_file_name)
 #
 #   banff_report$`Dataset assessment - input`     <- banff_assessment$`Dataset assessment`
 #   banff_report$`Dataset assessment - diagnoses` <- banff_report$`Dataset assessment`
