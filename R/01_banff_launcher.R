@@ -156,6 +156,9 @@ Diagnoses for this file already exists in '",basename(output_folder),"'")
   if(!is.null(attributes(banff_assessment)$error)){
 
     message(attributes(banff_assessment)$error)
+
+message('\n',rep('-',80))
+
     message("
 An assessment report has been generated in your output folder to help you correcting
 your dataset. You can open it as an Excel file and check the variables that contain

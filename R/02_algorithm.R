@@ -546,7 +546,7 @@ Your dataset contains no variables that matches the data dictionary."
 
 Some variables in your dataset are missing.
 Missing variables in dataset : \n\n",
-toString(test_missing_cols) %>% str_replace_all(", ","\n"))
+bold(toString(test_missing_cols) %>% str_replace_all(", ","\n")))
 
     banff_assessment$`Dataset assessment` <-
       tibble(
@@ -609,7 +609,7 @@ these variable must be filled with proper categories, and cannot contain NA.
 Usually, you can replace all these NA by '0'.
 
 Variables in the dataset that contain NA : \n\n",
-toString(contains_na) %>% str_replace_all(", ","\n"))
+bold(toString(contains_na) %>% str_replace_all(", ","\n")))
 
     for(i in contains_na){
       # stop()}
