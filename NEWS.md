@@ -1,14 +1,14 @@
 
 # banffIT 0.1.0
 
-The banffIT package provides provides functions to assign standardized
-diagnoses using the Banff Classification (Category 1 to 6 diagnoses,
-including Acute and Chronic active T-cell mediated rejection as well as
-Active, Chronic active, and Chronic antibody mediated rejection). The
-main function `banff_launcher()`considers a minimal dataset containing
+The banffIT package provides functions to assign standardized diagnoses
+using the Banff Classification (Category 1 to 6 diagnoses, including
+Acute and Chronic active T-cell mediated rejection as well as Active,
+Chronic active, and Chronic antibody mediated rejection). The main
+function `banff_launcher()`considers a minimal dataset containing
 biopsies information in a specific format (described by a data
 dictionary), verifies its content and format (based on the data
-dictionary), assign diagnoses, and create a summary report.
+dictionary), assigns diagnoses, and creates a summary report.
 
 ## Main functionality
 
@@ -30,7 +30,7 @@ dictionary), assign diagnoses, and create a summary report.
   its format and content based on the accepted format specified in the
   data dictionary.
 
-- `calculate_adequacy()` A tibble object with two columns: the
+- `calculate_adequacy()` A tibble object with two variables: the
   calculated adequacy (adequacy_calculated) and the adequacy specified
   in input (adequacy_input).
 
@@ -44,7 +44,7 @@ dictionary), assign diagnoses, and create a summary report.
 
 - `get_banff_dictionary()`, `get_banff_example()`,
   `get_banff_template()` This function gets the data dictionary used to
-  control the consistency of the Banff dataset, a example dataset and a
+  control the consistency of the input dataset, a example dataset and a
   template.
 
 - function `banffIT_website()` This function sends the user to the

@@ -3,15 +3,16 @@
 #'
 #' @description
 #' This function gets the data dictionary used to control the consistency of
-#' the Banff dataset.
+#' the input dataset.
 #'
-#' @param which Indicates which Banff dictionary to get. Either "input" or
-#' "output". If NULL, both Banff dictionary are provided.
+#' @param which Indicates which variables to get from the Banff data dictionary.
+#' If NULL both input and output variables are provided.*
 #' @param language Optional input allowing the user to get the diagnoses in a
 #' specific language. Options are "label:en" (default), "label:fr", "label:de",
 #' "label:sp", "label:nl", "label:jp", "label:in".
-#' @param detail Whether the output should include temporary variables generated
-#' in the process or not. FALSE by default.
+#' @param detail Optional argument indicating whether the data dictionary should
+#' include temporary variables generated in the process or not.
+#' FALSE by default.
 #'
 #' @return
 #' A list of tibbles representing meta data used in the process. The metadata
@@ -114,7 +115,7 @@ The possible `language` are : ",toString(labels))
 }
 
 #' @title
-#' Get the Banff dataset example
+#' Get a dataset example
 #'
 #' @description
 #' This function gets the dataset used in the vignette as an example.
@@ -142,10 +143,10 @@ get_banff_example <- function(){
 }
 
 #' @title
-#' Get the Banff dataset template
+#' Get a dataset template
 #'
 #' @description
-#' This function gets the empty dataset with columns that are mandatory in the
+#' This function gets the empty dataset with variables that are mandatory in the
 #' process.
 #'
 #' @return

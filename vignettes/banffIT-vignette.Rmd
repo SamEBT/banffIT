@@ -31,7 +31,7 @@ information it must contain.
 
 A template (available 
 <a href="https://PersonalizedTransplantCare.github.io/banffIT-documentation/templates/banff_template.xlsx" download class="external-link">here</a>
-or `get_banff_template()` in R) as well as an example dataset (
+or `get_banff_template()` in R) as well as an example dataset (available
 <a href="https://PersonalizedTransplantCare.github.io/banffIT-documentation/templates/banff_example.xlsx" download class="external-link">here</a>
 or `get_banff_example()` in R) are also available with the package to help you 
 construct and prepare your dataset.
@@ -49,7 +49,7 @@ dataset is not in the correct format.
 b) Assign diagnosis to each observation (using `calculate_adequacy()` and 
 `add_diagnoses()` internally).
 
-c) Save the output dataset containing diagnoses, summary report with 
+c) Save the output dataset containing diagnoses,a summary report with 
 descriptive statistics of your output dataset, and the data dictionary.
 
 

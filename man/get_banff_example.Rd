@@ -2,7 +2,7 @@
 % Please edit documentation in R/01_utils.R
 \name{get_banff_example}
 \alias{get_banff_example}
-\title{Get the Banff dataset example}
+\title{Get a dataset example}
 \usage{
 get_banff_example()
 }

@@ -4,7 +4,7 @@ library(fabR)
 library(usethis)
 
 banff_dict <- read_excel_allsheets("inst/extdata/banff_dictionary.xlsx")
-banff_dict <- banff_dict[c('read me','Variables','Categories')]
+banff_dict <- banff_dict[c('ReadMe','Variables','Categories')]
 
 banff_example  <- read_excel_allsheets("inst/extdata/banff_example.xlsx")
 banff_template <- read_excel_allsheets("inst/extdata/banff_template.xlsx")

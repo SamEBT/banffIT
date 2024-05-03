@@ -2,7 +2,7 @@
 % Please edit documentation in R/01_utils.R
 \name{get_banff_template}
 \alias{get_banff_template}
-\title{Get the Banff dataset template}
+\title{Get a dataset template}
 \usage{
 get_banff_template()
 }
@@ -10,7 +10,7 @@ get_banff_template()
 A tibble representing the empty dataset.
 }
 \description{
-This function gets the empty dataset with columns that are mandatory in the
+This function gets the empty dataset with variables that are mandatory in the
 process.
 }
 \examples{

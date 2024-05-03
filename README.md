@@ -15,7 +15,7 @@ Chronic active, and Chronic antibody mediated rejection). The main
 function `banff_launcher()`considers a minimal dataset containing
 biopsies information in a specific format (described by a data
 dictionary), verifies its content and format (based on the data
-dictionary), assign diagnoses, and create a summary report.
+dictionary), assigns diagnoses, and creates a summary report.
 
 ## Main functionality
 

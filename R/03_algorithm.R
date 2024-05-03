@@ -10,7 +10,7 @@
 #' @param banff_dataset A tibble object.
 #'
 #' @return
-#' A tibble object that contains additional columns with the diagnoses results.
+#' A tibble object that contains additional variables with the diagnoses results.
 #'
 #' @examples
 #' {
@@ -440,17 +440,17 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
 }
 
 #' @title
-#' Calculate adequacy of each biopsy from glomeruli and arteries
+#' Calculate adequacy of each biopsy from glomeruli and arteries variables
 #'
 #' @description
-#' This function calculates adequacy of each biopsy (i.e., each observation) based on glomeruli and
-#' arteries variables (if provided).
+#' This function calculates adequacy of each biopsy (i.e., each observation)
+#' based on glomeruli and arteries variables (if provided).
 #'
 #' @param banff_dataset A tibble object.
 #'
 #' @return
-#' A tibble object with two columns: the calculated adequacy (adequacy_calculated)
-#' and the adequacy specified in input (adequacy_input).
+#' A tibble object with two variables: the calculated adequacy
+#' (adequacy_calculated) and the adequacy specified in input (adequacy_input).
 #'
 #' @examples
 #' {

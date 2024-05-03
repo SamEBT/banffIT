@@ -25,10 +25,11 @@ specific language. Options are "label:en" (default), "label:fr", "label:de",
 "label:sp", "label:nl", "label:jp", "label:in".}
 
 \item{option_filter}{Optional argument allowing the user to filter the
-dataset using \code{\link[dplyr:filter]{dplyr::filter()}} syntax. The column used to filter must exist.}
+dataset using \code{\link[dplyr:filter]{dplyr::filter()}} syntax. The variable used to filter must
+exist.}
 
-\item{detail}{Optional argument indicating whether the output should include
-temporary variables generated in the process or not. FALSE by default.}
+\item{detail}{Optional argument indicating whether the output should
+include temporary variables generated in the process or not. FALSE by default.}
 }
 \value{
 Nothing to be returned. The function generates a folder (if not already

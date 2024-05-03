@@ -10,7 +10,7 @@ add_diagnoses(banff_dataset)
 \item{banff_dataset}{A tibble object.}
 }
 \value{
-A tibble object that contains additional columns with the diagnoses results.
+A tibble object that contains additional variables with the diagnoses results.
 }
 \description{
 This function takes a dataset and returns a diagnosis for each

@@ -7,15 +7,16 @@
 get_banff_dictionary(which = NULL, language = "label:en", detail = FALSE)
 }
 \arguments{
-\item{which}{Indicates which Banff dictionary to get. Either "input" or
-"output". If NULL, both Banff dictionary are provided.}
+\item{which}{Indicates which variables to get from the Banff data dictionary.
+If NULL both input and output variables are provided.*}
 
 \item{language}{Optional input allowing the user to get the diagnoses in a
 specific language. Options are "label:en" (default), "label:fr", "label:de",
 "label:sp", "label:nl", "label:jp", "label:in".}
 
-\item{detail}{Whether the output should include temporary variables generated
-in the process or not. FALSE by default.}
+\item{detail}{Optional argument indicating whether the data dictionary should
+include temporary variables generated in the process or not.
+FALSE by default.}
 }
 \value{
 A list of tibbles representing meta data used in the process. The metadata
@@ -23,7 +24,7 @@ are the list of variables used, and their associated categories, if any.
 }
 \description{
 This function gets the data dictionary used to control the consistency of
-the Banff dataset.
+the input dataset.
 }
 \examples{
 {

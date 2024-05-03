@@ -22,9 +22,10 @@
 #' specific language. Options are "label:en" (default), "label:fr", "label:de",
 #' "label:sp", "label:nl", "label:jp", "label:in".
 #' @param option_filter Optional argument allowing the user to filter the
-#' dataset using [dplyr::filter()] syntax. The column used to filter must exist.
-#' @param detail Optional argument indicating whether the output should include
-#' temporary variables generated in the process or not. FALSE by default.
+#' dataset using [dplyr::filter()] syntax. The variable used to filter must
+#' exist.
+#' @param detail Optional argument indicating whether the output should
+#' include temporary variables generated in the process or not. FALSE by default.
 #'
 #' @return
 #' Nothing to be returned. The function generates a folder (if not already
@@ -142,7 +143,7 @@ Diagnoses for this file already exists in '",basename(output_folder),"'")
 
   message("\n[2/6] - Evaluation of '",bold(input_file_name),"'")
 
-  ##### evaluation of Banff dataset input.
+  ##### evaluation of input dataset.
   banff_assessment <-
     suppressMessages(banff_dataset_evaluate(banff_dataset))
 
@@ -222,8 +223,8 @@ For further information please refer to documentation.")
 
   banff_report$`Dataset assessment - diagnoses` <-
     banff_report$`Dataset assessment - diagnoses` %>%
-    select("column" = "name","condition" = "Quality assessment comment", "value") %>%
-    dplyr::filter(!.data$`column` %in% banff_report$`Dataset assessment - input`$column)
+    select("variable" = "name","condition" = "Quality assessment comment", "value") %>%
+    dplyr::filter(!.data$`variable` %in% banff_report$`Dataset assessment - input`$variable)
 
   banff_report <- banff_report[unique(c(
     "Overview","Dataset assessment - input",
@@ -236,7 +237,7 @@ For further information please refer to documentation.")
 
 The assessment and addition of diagnoses on your dataset is now finished.
 In the output folder, you will find an Excel file containing both labels and codes
-of your dataset and for each participant, additional columns corresponding to the
+of your dataset and for each participant, additional variables corresponding to the
 diagnoses.
 
 An assessment and summary report has been generated in your output folder to help you

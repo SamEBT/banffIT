@@ -21,10 +21,10 @@ dataset. The function evaluates whether:
 \itemize{
 \item The input file is a dataset
 \item All mandatory variables are present in the dataset
-\item Missing values (NA) values are present in variables where they are not allowed
+\item Missing values (NA) are present in variables where they are not allowed
 \item Data types are correct.
 \item The combination of ID, center, and biopsy date is unique
-\item There are duplicated columns in the dataset
+\item There are duplicated variable in the dataset
 \item Dates are valid
 \item Content values follow the category values as specified in the data dictionary
 \item Constraints specified in the data dictionary are respected

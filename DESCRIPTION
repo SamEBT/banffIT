@@ -1,6 +1,6 @@
 Package: banffIT
 Type: Package
-Title: Automatize Standardized Assignation Diagnosis Using the Banff Classification 
+Title: Automatize Diagnosis Standardized Assignation Using the Banff Classification
 Version: 0.1.0
 Authors@R: 
     c(person(given = "Guillaume",
@@ -19,16 +19,20 @@ Authors@R:
       person(given = "Jérôme",
              family = "Laforme",
              role=c("ctb"),
-             email="jlaforme@maelstrom-research.org"))
+             email="jlaforme@maelstrom-research.org"),
+      person(given = "Tina",
+             family = "Wey",
+             role=c("ctb"),
+             email="twey@maelstrom-research.org"))
 Maintainer: Guillaume Fabre <guijoseph.fabre@gmail.com>
 Description: The goal of this package is to provide functions to assign 
-    standardized diagnosis using the Banff Classification (Category 1 to 6 
+    standardized diagnoses using the Banff Classification (Category 1 to 6 
     diagnoses, including Acute and Chronic active T-cell mediated rejection as 
     well as Active, Chronic active, and Chronic antibody mediated rejection). 
-    The main function considers a minimal dataset containing biopsy 
+    The main function considers a minimal dataset containing biopsies 
     information in a specific format (described by a data dictionary), verifies 
-    its content and format (based on the data dictionary), assign diagnoses, and 
-    creates a summary report.
+    its content and format (based on the data dictionary), assigns diagnoses, 
+    and creates a summary report.
 License: GPL-3
 Depends: R (>= 3.4)
 URL: https://github.com/PersonalizedTransplantCare/banffIT
