@@ -13,10 +13,11 @@
 #' default). The output dataset comes with a report that summarizes information
 #' about variable distributions and descriptive statistics.
 #'
-#' @param input_file A character string identifying the path of the dataset
+#' @param input_file A character string identifying the path of the input file
+#' (must be a CSV or a one sheet Excel file)
 #' to be processed.
 #' @param output_folder A character string identifying the folder path where
-#' the bookdown report files will be saved.
+#' the output files will be saved.
 #' @param language Optional argument allowing the user to get the diagnoses in a
 #' specific language. Options are "label:en" (default), "label:fr", "label:de",
 #' "label:sp", "label:nl", "label:jp", "label:in".

@@ -114,6 +114,63 @@ The possible `language` are : ",toString(labels))
 }
 
 #' @title
+#' Get the Banff dataset example
+#'
+#' @description
+#' This function gets the dataset used in the vignette as an example.
+#'
+#' @return
+#' A tibble representing the dataset used in the the vignette as an example.
+#'
+#' @examples
+#' {
+#'
+#'   get_banff_example()
+#'
+#' }
+#'
+#' @import dplyr
+#' @importFrom rlang .data
+#' @export
+get_banff_example <- function(){
+
+  # creation of the data dictionary
+  banff_example <- get("banff_example", envir = asNamespace("banffIT"))
+
+  return(banff_example)
+
+}
+
+#' @title
+#' Get the Banff dataset template
+#'
+#' @description
+#' This function gets the empty dataset with columns that are mandatory in the
+#' process.
+#'
+#' @return
+#' A tibble representing the empty dataset.
+#'
+#' @examples
+#' {
+#'
+#'   get_banff_template()
+#'
+#' }
+#'
+#' @import dplyr
+#' @importFrom rlang .data
+#' @export
+get_banff_template <- function(){
+
+  # creation of the data dictionary
+  banff_template <- get("banff_template", envir = asNamespace("banffIT"))
+
+  return(banff_template)
+
+}
+
+#' @title
 #' Call the online documentation
 #'
 #' @description

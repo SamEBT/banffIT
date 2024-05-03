@@ -37,6 +37,27 @@ style="width: 100%; margin: 0 auto; display: flex; justify-content: center;">
   that summarizes information about variable distributions and
   descriptive statistics.
 
+# Download section
+
+<button>
+<a href="https://github.com/PersonalizedTransplantCare/banffIT/blob/testing/inst/extdata/data_dictionary_Banff_2024_04_19.xlsx" download class="external-link">Data
+Dictionary</a>
+</button>
+
+also available in R using `get_banff_dictionary()` </br>
+
+<button>
+<a href="https://github.com/PersonalizedTransplantCare/banffIT/blob/testing/inst/extdata/template.xlsx" download class="external-link">Template</a>
+</button>
+
+also available in R using `get_banff_template()` </br>
+
+<button>
+<a href="https://github.com/PersonalizedTransplantCare/banffIT/blob/testing/inst/extdata/example.xlsx" download class="external-link">Example</a>
+</button>
+
+also available in R using `get_banff_example()` </br>
+
 # Get started
 
 ## Install the package and use the example file
