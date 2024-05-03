@@ -40,16 +40,16 @@ construct and prepare your dataset.
 
 The main function `banff_launcher()` will go through 3 steps. It will:
 
-* a) Evaluate your input dataset (using `banff_dataset_evaluate()` internally). 
+a) Evaluate your input dataset (using `banff_dataset_evaluate()` internally). 
 If your input dataset is not in the correct format or is missing information, 
 a report will be saved in your output folder and will flag variables and 
 rows that are not formatted properly. The next step will not run if the input 
 dataset is not in the correct format.
 
-* b) Assign diagnosis to each observation (using `calculate_adequacy()` and 
+b) Assign diagnosis to each observation (using `calculate_adequacy()` and 
 `add_diagnoses()` internally).
 
-* c) Save the output dataset containing diagnoses, summary report with 
+c) Save the output dataset containing diagnoses, summary report with 
 descriptive statistics of your output dataset, and the data dictionary.
 
 

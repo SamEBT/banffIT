@@ -24,19 +24,6 @@ style="width: 100%; margin: 0 auto; display: flex; justify-content: center;">
 
 <br>
 
-- function `banff_launcher()` This function takes a path string
-  identifying the input file path. The function internally runs a series
-  of tests that assess the input dataset. If any of these tests fails,
-  the user gets information allowing them to correct the input dataset
-  and rerun the process. Once all tests pass, the dataset is given as an
-  output with a diagnosis for each observation (using the function
-  `add_diagnoses()` internally). The output dataset, along with its
-  associated labels (“label:en” by default) are provided to the user in
-  an Excel format file accessible in the output_folder specified (the
-  working directory by default). The output dataset comes with a report
-  that summarizes information about variable distributions and
-  descriptive statistics.
-
 # Download section
 
 <button>
@@ -61,14 +48,6 @@ also available in R using `get_banff_example()` </br>
 # Get started
 
 ## Install the package and use the example file
-
-This command example runs the diagnosis assignment process on the
-dataset specified in the input_file path. The output files will be saved
-in path_folder/example. The diagnoses will be displayed in English and
-only observation with adequacy == 1 will be taken into consideration due
-to the option_filter argument. Finally, the output dataset will contain
-variables generated in the process due to the argument “detail” set to
-TRUE.
 
 ``` r
 
