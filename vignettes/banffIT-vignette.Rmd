@@ -2,15 +2,15 @@
 title: "banffIT-vignette"
 output: rmarkdown::html_vignette
 vignette: >
- %\VignetteIndexEntry{banffIT-vignette}
- %\VignetteEngine{knitr::rmarkdown}
- %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{banffIT-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
- collapse = TRUE,
- comment = "#>"
+  collapse = TRUE,
+  comment = "#>"
 )
 ```
 
@@ -22,7 +22,7 @@ antibody mediated rejection).
 The following steps will guide you in this process of diagnosis assignment with 
 the package. To get your dataset ready and in a correct format, you must 
 refer to the data dictionary provided with the package
-<a href="https://github.com/PersonalizedTransplantCare/banffIT/blob/testing/inst/extdata/data_dictionary_Banff_2024_04_19.xlsx" download class="external-link">here</a>
+<a href="https://PersonalizedTransplantCare.github.io/banffIT-documentation/templates/banff_dictionary.xlsx">here</a>
 (or using the function `get_banff_dictionary()` in R). This data dictionary 
 contains metadata specifying how your input dataset should be formatted and what 
 information it must contain.
@@ -30,9 +30,9 @@ information it must contain.
 # 1. Having your dataset ready
 
 A template (available 
-<a href="https://github.com/PersonalizedTransplantCare/banffIT/blob/testing/inst/extdata/template.xlsx" download class="external-link">here</a>
+<a href="https://PersonalizedTransplantCare.github.io/banffIT-documentation/templates/banff_template.xlsx" download class="external-link">here</a>
 or `get_banff_template()` in R) as well as an example dataset (
-<a href="https://github.com/PersonalizedTransplantCare/banffIT/blob/testing/inst/extdata/example.xlsx" download class="external-link">here</a>
+<a href="https://PersonalizedTransplantCare.github.io/banffIT-documentation/templates/banff_example.xlsx" download class="external-link">here</a>
 or `get_banff_example()` in R) are also available with the package to help you 
 construct and prepare your dataset.
 

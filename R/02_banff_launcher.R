@@ -33,7 +33,7 @@
 #' @examples
 #' {
 #'
-#' input_file <- system.file("extdata", "template.xlsx", package = "banffIT")
+#' input_file <- system.file("extdata", "banff_template.xlsx", package = "banffIT")
 #' banff_launcher(input_file, output_folder = tempdir())
 #'
 #' }

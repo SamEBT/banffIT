@@ -1,7 +1,7 @@
 Package: banffIT
 Type: Package
 Title: Automatize Standardized Assignation Diagnosis Using the Banff Classification 
-Version: 0.1.0.1005
+Version: 0.1.0
 Authors@R: 
     c(person(given = "Guillaume",
              family = "Fabre",

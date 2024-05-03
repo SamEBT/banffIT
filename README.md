@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/maelstrom-research/banffIT/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/maelstrom-research/banffIT/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/PersonalizedTransplantCare/banffIT/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/PersonalizedTransplantCare/banffIT/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The banffIT package provides functions to assign standardized diagnoses
@@ -27,20 +27,20 @@ style="width: 100%; margin: 0 auto; display: flex; justify-content: center;">
 # Download section
 
 <button>
-<a href="https://github.com/PersonalizedTransplantCare/banffIT/blob/testing/inst/extdata/data_dictionary_Banff_2024_04_19.xlsx" download class="external-link">Data
+<a href="https://PersonalizedTransplantCare.github.io/banffIT-documentation/templates/banff_dictionary.xlsx" download class="external-link">Data
 Dictionary</a>
 </button>
 
 also available in R using `get_banff_dictionary()` </br>
 
 <button>
-<a href="https://github.com/PersonalizedTransplantCare/banffIT/blob/testing/inst/extdata/template.xlsx" download class="external-link">Template</a>
+<a href="https://PersonalizedTransplantCare.github.io/banffIT-documentation/templates/banff_template.xlsx" download class="external-link">Template</a>
 </button>
 
 also available in R using `get_banff_template()` </br>
 
 <button>
-<a href="https://github.com/PersonalizedTransplantCare/banffIT/blob/testing/inst/extdata/example.xlsx" download class="external-link">Example</a>
+<a href="https://PersonalizedTransplantCare.github.io/banffIT-documentation/templates/banff_example.xlsx" download class="external-link">Example</a>
 </button>
 
 also available in R using `get_banff_example()` </br>

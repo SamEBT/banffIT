@@ -3,10 +3,10 @@
 library(fabR)
 library(usethis)
 
-banff_dict <- read_excel_allsheets("inst/extdata/data_dictionary_Banff_2024_05_03.xlsx")
+banff_dict <- read_excel_allsheets("inst/extdata/banff_dictionary.xlsx")
 banff_dict <- banff_dict[c('read me','Variables','Categories')]
 
-banff_example <- read_excel_allsheets("inst/extdata/example.xlsx")
-banff_template <- read_excel_allsheets("inst/extdata/template.xlsx")
+banff_example  <- read_excel_allsheets("inst/extdata/banff_example.xlsx")
+banff_template <- read_excel_allsheets("inst/extdata/banff_template.xlsx")
 
 use_data(banff_dict,banff_template,banff_example, overwrite = TRUE, internal = TRUE)

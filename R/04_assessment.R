@@ -584,7 +584,7 @@ Your dataset contains no error."
 #  {
 #
 #  library(fabR)
-#  input_file <- system.file("extdata", "example.xlsx", package = "banffIT")
+#  input_file <- system.file("extdata", "banff_example.xlsx", package = "banffIT")
 #  banff_dataset <- read_excel_allsheets(input_file)[1,]
 #  banff_dataset_evaluate(banff_dataset)
 #
