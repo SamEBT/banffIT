@@ -1,5 +1,5 @@
 
-# banffIT 0.1.0
+# banffIT 1.0.0
 
 The banffIT package provides functions to assign standardized diagnoses
 using the Banff Classification (Category 1 to 6 diagnoses, including
