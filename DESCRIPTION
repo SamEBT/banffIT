@@ -34,8 +34,7 @@ Description: Assigns standardized diagnoses using the Banff Classification
     assigns diagnoses, and creates a summary report. The package is developed on
     the reference guide to the Banff classification of renal allograft pathology
     Roufosse C, Simmonds N, Clahsen-van Groningen M, et al. A (2018) <doi:10.1097/TP.0000000000002366>.
-    The full description of the Banff classification is available at
-    <https://banfffoundation.org/central-repository-for-banff-2019-resources-3/>.
+    The full description of the Banff classification is available at <https://banfffoundation.org/>.
 License: GPL-3
 Depends: R (>= 3.4)
 URL: https://github.com/PersonalizedTransplantCare/banffIT
