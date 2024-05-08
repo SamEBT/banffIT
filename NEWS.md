@@ -20,9 +20,9 @@ dictionary), assigns diagnoses, and creates a summary report.
   diagnosis for each observation (using the function `add_diagnoses()`
   internally). The output dataset, along with its associated labels
   (“label:en” by default) are provided to the user in an Excel format
-  file accessible in the output_folder specified (the working directory
-  by default). The output dataset comes with a report that summarizes
-  information about variable distributions and descriptive statistics.
+  file accessible in the output_folder specified. The output dataset
+  comes with a report that summarizes information about variable
+  distributions and descriptive statistics.
 
 ## Additional functions (used in the main function, but can be used separately)
 

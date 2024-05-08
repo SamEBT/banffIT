@@ -6,7 +6,7 @@
 \usage{
 banff_launcher(
   input_file,
-  output_folder = getwd(),
+  output_folder,
   language = "label:en",
   option_filter,
   detail = FALSE
@@ -36,16 +36,16 @@ Nothing to be returned. The function generates a folder (if not already
 existing) where Excel files are stored.
 }
 \description{
-This function takes a path string identifying the input file path. The function
-internally runs a series of tests that assess the input dataset. If any
-of these tests fails, the user gets information allowing them to correct the
-input dataset and rerun the process. Once all tests pass, the dataset
+This function takes a path string identifying the input file path. The
+function internally runs a series of tests that assess the input dataset. If
+any of these tests fails, the user gets information allowing them to correct
+the input dataset and rerun the process. Once all tests pass, the dataset
 is given as an output with a diagnosis for each observation (using the
 function \code{\link[=add_diagnoses]{add_diagnoses()}} internally). The output dataset, along with its
 associated labels (\code{label:en} by default) are provided to the user in an Excel
-format file accessible in the output_folder specified (the working directory by
-default). The output dataset comes with a report that summarizes information
-about variable distributions and descriptive statistics.
+format file accessible in the output_folder specified. The output dataset
+comes with a report that summarizes information about variable distributions
+and descriptive statistics.
 }
 \examples{
 {

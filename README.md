@@ -62,7 +62,7 @@ banffIT_website()
 input_file = system.file("extdata", "example.xlsx", package = "banffIT")
 banff_launcher(
   input_file = input_file,
-  output_folder = 'folder_path/example',
+  output_folder = tempdir(), # 'folder_path/example'
   language = 'label:en',
   option_filter = adequacy == 1,
   detail = TRUE)
