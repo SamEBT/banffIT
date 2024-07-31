@@ -115,7 +115,7 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
                         .data$`g_score` + .data$`ptc_score` >= 2 &
                         .data$`g_score` >= 1,                             1L, 0L),
       aamr13  = ifelse( .data$`v_score` > 0,                              1L, 0L),
-      aamr14  = ifelse((.data$`atma` + .data$`atn`) > 0,                    1L, 0L),
+      aamr14  = ifelse((.data$`atma`) > 0,                    1L, 0L), #remove  + .data$`atn`to match version 2022
       aamr1   = ifelse( .data$`aamr11.1` == 1 |
                         .data$`aamr11.2` == 1 |
                         .data$`aamr12`   == 1 |
@@ -236,7 +236,7 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
 
       camr13 = case_when(
         .data$`leuscint` == 1 & .data$`hist_tcmr_calculated` == 0L  ~ 1L,
-        .data$`newaif`   == 1                                       ~ 1L,
+        #.data$`newaif`   == 1                                       ~ 1L, # removing for version 2022
         TRUE                                                        ~ 0L)
     )
 
