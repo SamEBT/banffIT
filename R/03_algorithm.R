@@ -177,6 +177,7 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
                            .data$`aamr21` == 0L,                           1L, 0L),
 
       # the previous conditon is used as .data$g_score + .data$ptc_score >= 2
+      # SEBT Definition of Microvascular inflammation/injury (MVI), DSA-negative and C4d-negative
       susp_c4dneg_aamr = ifelse(.data$`c4dneg_aamr` == 0 &
                                (.data$`aamr22.1` == 1 |
                                 .data$`aamr22.2` == 1 |
@@ -189,7 +190,15 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
                            .data$`dsa` == 0,                              1L, 0L),
 
       susp_activeaamr  = ifelse(.data$`susp_aamr` == 1 |
-                                .data$`susp_c4dneg_aamr` == 1,            1L, 0L) # SEBT aligns with Probable AMR I think
+                                .data$`susp_c4dneg_aamr` == 1,            1L, 0L)
+      
+      # Probable AMR to add to the data dictionary and to the output diagnoses
+      prob_amr = ifelse(.data$`aamr1` == 1 &
+                         .data$`aamr2` == 0 &
+                         .data$`camr1` == 0 &
+                         .data$`dsa` == 1,                                 1L, 0L),
+
+      
     )
 
 
@@ -234,10 +243,10 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
 
       camr12 = ifelse(.data$`sptcbmml`    == 1L,      1L, 0L),
 
-      camr13 = case_when(
-        .data$`leuscint` == 1 & .data$`hist_tcmr_calculated` == 0L  ~ 1L,
-        #.data$`newaif`   == 1                                       ~ 1L, # SEBT removing for version 2022 but mabe we need to break it down since camr1 is used for different diagnoses
-        TRUE                                                        ~ 0L)
+      #camr13 = case_when(
+       # .data$`leuscint` == 1 & .data$`hist_tcmr_calculated` == 0L  ~ 1L,
+        #.data$`newaif`   == 1                                       ~ 1L, # SEBT removing for version 2022 
+        #TRUE                                                        ~ 0L)
     )
 
   banff_diagnoses <-
@@ -245,8 +254,7 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
     mutate(
 
       camr1 = ifelse(.data$`camr11` == 1L |
-                       .data$`camr12` == 1L |
-                       .data$`camr13` == 1L,                          1L, 0L),
+                       .data$`camr12` == 1L,                          1L, 0L), # remove camr13 for version 2022
 
       activeabmr = ifelse(
         (.data$`aamr` == 1 |
@@ -274,7 +282,7 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
     mutate(
 
       c4dneg_camr      = ifelse(.data$`camr1`      == 1  &
-                                .data$`dsa`        == 1 & # SEBT dsa should be == 0 to align with version 2022 ?
+                                .data$`dsa`        == 1 &
                                (.data$`aamr22.1`   == 1 |
                                   .data$`aamr22.2` == 1 |
                                   .data$`aamr22.3` == 1) &
@@ -349,12 +357,15 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
     )
 
 # SEBT C4d staining with acute tubular injury (ATI) 
+  # Create 2 variables: crossmatch (DSA positive / DSA negative) and abo_compatibility (ABO compatible / ABO incompatible)
   banff_diagnoses <-
     banff_diagnoses %>%
     mutate(c4d_staining_atn = ifelse(.data$`atn` == 1 & 
                                      .data$`aamr21` == 1 &
                                      .data$`aamr1` == 0 &
-                                     .data$`camr1` == 0, 1L,0L)
+                                     .data$`camr1` == 0, 1L,0L),
+          prob_amr = ifelse(.data$c4d_staining_atn == 1 &
+                            .data$`crossmatch` == 1 ~ 1,) # 
 
 
   
