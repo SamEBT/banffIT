@@ -192,7 +192,7 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
       susp_activeaamr  = ifelse(.data$`susp_aamr` == 1 |
                                 .data$`susp_c4dneg_aamr` == 1,            1L, 0L)
       
-      # Probable AMR to add to the data dictionary and to the output diagnoses
+      # SEBT Probable AMR to add to the data dictionary and to the output diagnoses
       prob_amr = ifelse(.data$`aamr1` == 1 &
                          .data$`aamr2` == 0 &
                          .data$`camr1` == 0 &
@@ -254,7 +254,7 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
     mutate(
 
       camr1 = ifelse(.data$`camr11` == 1L |
-                       .data$`camr12` == 1L,                          1L, 0L), # remove camr13 for version 2022
+                       .data$`camr12` == 1L,                          1L, 0L), # SEBT remove camr13 for version 2022
 
       activeabmr = ifelse(
         (.data$`aamr` == 1 |
@@ -365,7 +365,9 @@ Use `banff_dataset_evaluate(banff_dataset)` to help you correcting your file.\n"
                                      .data$`aamr1` == 0 &
                                      .data$`camr1` == 0, 1L,0L),
           prob_amr = ifelse(.data$c4d_staining_atn == 1 &
-                            .data$`crossmatch` == 1 ~ 1,) # 
+                            .data$`crossmatch` == 1 ~ 1L,0L),
+          accomodation = ifelse(.data$c4d_staining_atn == 1 &
+                            .data$`abo_i` == 1 ~ 1L,0L)) 
 
 
   
